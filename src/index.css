@@ -73,8 +73,8 @@ body {
   margin: 0 !important;
   overflow: hidden;
   height: 80px;
-  /* Ultra-compact header height */
-  width: 280px;
+  max-width: 100%;
+  width: 300px;
 }
 
 .footer-logo-container {
@@ -84,7 +84,7 @@ body {
   margin: 0 !important;
   overflow: hidden;
   height: 80px;
-  /* Locked header height */
+  max-width: 100%;
   width: 300px;
 }
 
@@ -131,10 +131,61 @@ body {
   display: none;
 }
 
-@media (min-width: 1024px) {
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .search-bar {
+    display: none !important;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+}
+
+@media (min-width: 1025px) {
   .search-bar {
     display: block;
   }
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu-overlay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 40px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+
+.mobile-nav-link {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: var(--transition);
+}
+
+.mobile-nav-link:hover {
+  color: var(--accent-primary);
 }
 
 .search-input {
@@ -208,6 +259,12 @@ body {
   align-items: center;
 }
 
+@media (max-width: 768px) {
+  .hero-banner {
+    height: 400px;
+  }
+}
+
 .hero-img {
   position: absolute;
   inset: 0;
@@ -241,6 +298,12 @@ body {
   margin-bottom: 24px;
 }
 
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 36px;
+  }
+}
+
 .hero-desc {
   max-width: 400px;
   color: var(--text-secondary);
@@ -272,6 +335,14 @@ body {
   align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 48px;
+}
+
+@media (max-width: 768px) {
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
 }
 
 .section-title {
@@ -318,6 +389,7 @@ body {
 @media (max-width: 900px) {
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 }
 

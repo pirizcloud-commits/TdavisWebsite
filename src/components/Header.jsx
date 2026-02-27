@@ -46,6 +46,17 @@ export default function Header() {
                     </button>
                 </div>
             </nav>
+
+            {/* Mobile Navigation Overlay */}
+            {isMobileMenuOpen && (
+                <div className="mobile-menu-overlay animate-fade">
+                    <nav className="mobile-nav-links">
+                        <a href="#" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Shop All</a>
+                        <a href="#" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>New Arrivals</a>
+                        <a href="#" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Customs</a>
+                    </nav>
+                </div>
+            )}
         </header>
     );
 }
