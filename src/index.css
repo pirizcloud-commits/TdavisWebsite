@@ -492,6 +492,13 @@ body {
   transform: none;
 }
 
+@media (max-width: 768px) {
+  .footer-logo-container {
+    margin: 0 auto 10px;
+    justify-content: center;
+  }
+}
+
 .footer-desc {
   color: var(--text-secondary);
   font-size: 14px;
