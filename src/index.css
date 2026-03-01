@@ -70,22 +70,22 @@ body {
   display: flex;
   align-items: center;
   padding: 0 !important;
-  margin: 0 !important;
+  margin: 0;
   overflow: hidden;
   height: 80px;
   max-width: 100%;
-  width: 300px;
+  width: fit-content;
 }
 
 .footer-logo-container {
   display: flex;
   align-items: center;
   padding: 0 !important;
-  margin: 0 !important;
+  margin: 0;
   overflow: hidden;
   height: 80px;
   max-width: 100%;
-  width: 300px;
+  width: fit-content;
 }
 
 .logo-img {
@@ -479,7 +479,6 @@ body {
   padding: 0;
   overflow: hidden;
   height: 70px;
-  /* Reduced for better balance */
   width: 250px;
   display: flex;
   align-items: center;
