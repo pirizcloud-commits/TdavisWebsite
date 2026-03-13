@@ -10,7 +10,7 @@ export default function Header() {
             <nav className="container main-nav">
                 <div className="nav-actions">
                     <div className="logo-container">
-                        <img src="/logo_no_bg.png" alt="Elegant Designs Logo" className="logo-img" />
+                        <img src="/logo_no_bg.png" alt="Dazzling Designs Logo" className="logo-img" />
                     </div>
                 </div>
 

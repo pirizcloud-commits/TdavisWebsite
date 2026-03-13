@@ -5,7 +5,7 @@ export default function Footer() {
                 <div className="footer-grid">
                     <div className="footer-col">
                         <div className="footer-logo-container">
-                            <img src="/logo_no_bg.png" alt="Elegant Designs Logo" className="footer-logo-img" />
+                            <img src="/logo_no_bg.png" alt="Dazzling Designs Logo" className="footer-logo-img" />
                         </div>
                         <p className="footer-desc">
                             Premium custom jewelry and luxury timepieces. Handcrafted for those who demand the finest quality.
@@ -32,7 +32,7 @@ export default function Footer() {
                 </div>
 
                 <div className="footer-bottom">
-                    © {new Date().getFullYear()} ELEGANT DESIGNS. ALL RIGHTS RESERVED. POWERED BY HEADLESS SHOPIFY.
+                    © {new Date().getFullYear()} DAZZLING DESIGNS. ALL RIGHTS RESERVED. POWERED BY HEADLESS SHOPIFY.
                 </div>
             </div>
         </footer>
