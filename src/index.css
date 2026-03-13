@@ -88,15 +88,37 @@ body {
   width: fit-content;
 }
 
-.logo-img {
-  height: 260px;
-  /* Calculated for ~65px text height with ~7px padding */
-  width: auto;
-  object-fit: contain;
-  margin: 0;
-  display: block;
-  transform: none;
-  /* Remove extreme scale to prevent clipping */
+/* Text Logo */
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+  gap: 2px;
+}
+
+.logo-script {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 36px;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+
+.logo-caps {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .nav-links {
