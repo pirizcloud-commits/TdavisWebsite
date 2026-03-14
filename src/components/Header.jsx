@@ -10,10 +10,7 @@ export default function Header() {
             <nav className="container main-nav">
                 <div className="nav-actions">
                     <div className="logo-container">
-                        <div className="logo-text">
-                            <span className="logo-script">Dazzling</span>
-                            <span className="logo-caps">DESIGNS</span>
-                        </div>
+                        <img src="/logo_no_bg.png" alt="Dazzling Designs Logo" className="logo-img" />
                     </div>
                 </div>
 

@@ -5,10 +5,7 @@ export default function Footer() {
                 <div className="footer-grid">
                     <div className="footer-col">
                         <div className="footer-logo-container">
-                            <div className="logo-text">
-                                <span className="logo-script">Dazzling</span>
-                                <span className="logo-caps">DESIGNS</span>
-                            </div>
+                            <img src="/logo_no_bg.png" alt="Dazzling Designs Logo" className="footer-logo-img" />
                         </div>
                         <p className="footer-desc">
                             Premium custom jewelry and luxury timepieces. Handcrafted for those who demand the finest quality.
