@@ -6,8 +6,8 @@ export default function Footer() {
             <div className="container">
                 <div className="footer-grid">
                     <div className="footer-col">
-                        <Link to="/" className="footer-logo-container" style={{ textDecoration: 'none', display: 'flex' }}>
-                            <img src="/dazzling_designz_logo_lettering_cropped.png" alt="Dazzling Designs Logo" className="footer-logo-img" />
+                        <Link to="/" className="footer-logo-container" style={{ textDecoration: 'none', display: 'block', overflow: 'hidden', width: '140px', height: '160px', borderRadius: '8px' }}>
+                            <img src="/dazzling_designz_logo_full.jpeg" alt="Dazzling Designs Logo" className="footer-logo-img" style={{ objectFit: 'cover', objectPosition: 'top', width: '100%', height: '115%', display: 'block', margin: 0 }} />
                         </Link>
                         <p className="footer-desc">
                             Premium custom jewelry and luxury timepieces. Handcrafted for those who demand the finest quality.
