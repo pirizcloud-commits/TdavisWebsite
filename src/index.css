@@ -88,7 +88,7 @@ body {
 
 /* Image Logo */
 .logo-img {
-  height: 48px;
+  height: 60px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -470,16 +470,16 @@ body {
 }
 
 .footer-logo-container {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   padding: 0;
-  height: 70px;
+  height: 120px;
   width: fit-content;
   display: flex;
   align-items: center;
 }
 
 .footer-logo-img {
-  height: 48px;
+  height: 110px;
   width: auto;
   object-fit: contain;
   display: block;

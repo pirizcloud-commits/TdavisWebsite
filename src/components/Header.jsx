@@ -1,24 +1,28 @@
 import { useState } from 'react';
 import { Search, ShoppingBag, Menu, X } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCart } from '../lib/CartContext';
 
 export default function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const navigate = useNavigate();
+    const { toggleCart, totalQuantity } = useCart();
 
     return (
         <header className="site-header">
             {/* Main Nav */}
             <nav className="container main-nav">
                 <div className="nav-actions">
-                    <div className="logo-container">
-                        <img src="/logo_no_bg.png" alt="Dazzling Designs Logo" className="logo-img" />
-                    </div>
+                    <Link to="/" className="logo-container" style={{ textDecoration: 'none' }}>
+                        <img src="/dazzling_designz_logo_lettering_cropped.png" alt="Dazzling Designs Logo" className="logo-img" />
+                    </Link>
                 </div>
 
                 <div className="nav-actions">
                     <div className="nav-links desktop-only">
-                        <a href="#" className="nav-link">Shop All</a>
-                        <a href="#" className="nav-link">New Arrivals</a>
-                        <a href="#" className="nav-link">Customs</a>
+                        <Link to="/" className="nav-link">Shop All</Link>
+                        <Link to="/" className="nav-link">New Arrivals</Link>
+                        <Link to="/" className="nav-link">Customs</Link>
                     </div>
 
                     <div className="search-bar">
@@ -27,12 +31,13 @@ export default function Header() {
                             type="text"
                             placeholder="Search designs..."
                             className="search-input"
+                            onChange={(e) => navigate(`/?search=${e.target.value}`)}
                         />
                     </div>
 
-                    <button className="icon-btn">
+                    <button className="icon-btn" onClick={toggleCart}>
                         <ShoppingBag size={24} />
-                        <span className="badge">0</span>
+                        {totalQuantity > 0 && <span className="badge">{totalQuantity}</span>}
                     </button>
 
                     <button
@@ -48,9 +53,9 @@ export default function Header() {
             {isMobileMenuOpen && (
                 <div className="mobile-menu-overlay animate-fade">
                     <nav className="mobile-nav-links">
-                        <a href="#" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Shop All</a>
-                        <a href="#" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>New Arrivals</a>
-                        <a href="#" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Customs</a>
+                        <Link to="/" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Shop All</Link>
+                        <Link to="/" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>New Arrivals</Link>
+                        <Link to="/" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Customs</Link>
                     </nav>
                 </div>
             )}
