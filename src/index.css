@@ -301,7 +301,10 @@ body {
 
 .hero-desc {
   max-width: 400px;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 500;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  font-size: 18px;
   margin-bottom: 32px;
 }
 
