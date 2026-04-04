@@ -21,9 +21,9 @@ export default function Header() {
                 <div className="nav-actions">
                     <div className="nav-links desktop-only">
                         <Link to="/" className="nav-link">Shop All</Link>
-                        <Link to="/" className="nav-link">New Arrivals</Link>
+                        <Link to="/?filter=new-arrivals" className="nav-link">New Arrivals</Link>
                         <Link to="/about" className="nav-link">About</Link>
-                        <Link to="/" className="nav-link">Customs</Link>
+                        <Link to="/?filter=customs" className="nav-link">Customs</Link>
                     </div>
 
                     <div className="search-bar">
@@ -55,9 +55,9 @@ export default function Header() {
                 <div className="mobile-menu-overlay animate-fade">
                     <nav className="mobile-nav-links">
                         <Link to="/" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Shop All</Link>
-                        <Link to="/" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>New Arrivals</Link>
+                        <Link to="/?filter=new-arrivals" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>New Arrivals</Link>
                         <Link to="/about" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
-                        <Link to="/" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Customs</Link>
+                        <Link to="/?filter=customs" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Customs</Link>
                     </nav>
                 </div>
             )}
