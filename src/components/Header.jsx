@@ -20,7 +20,16 @@ export default function Header() {
 
                 <div className="nav-actions">
                     <div className="nav-links desktop-only">
-                        <Link to="/" className="nav-link">Shop All</Link>
+                        <div className="nav-item-dropdown">
+                            <Link to="/" className="nav-link">Shop All</Link>
+                            <div className="dropdown-menu">
+                                <Link to="/?filter=collection&handle=diva-collection" className="dropdown-link">Diva Collection</Link>
+                                <Link to="/?filter=collection&handle=queen-collection" className="dropdown-link">Queen Collection</Link>
+                                <Link to="/?filter=collection&handle=king-collection" className="dropdown-link">King Collection</Link>
+                                <Link to="/?filter=collection&handle=princess-collection" className="dropdown-link">Princess Collection</Link>
+                                <Link to="/?filter=collection&handle=elect-lady-collection" className="dropdown-link">Elect Lady Collection</Link>
+                            </div>
+                        </div>
                         <Link to="/?filter=new-arrivals" className="nav-link">New Arrivals</Link>
                         <Link to="/about" className="nav-link">About</Link>
                         <Link to="/?filter=customs" className="nav-link">Customs</Link>
@@ -55,6 +64,13 @@ export default function Header() {
                 <div className="mobile-menu-overlay animate-fade">
                     <nav className="mobile-nav-links">
                         <Link to="/" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Shop All</Link>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px', marginTop: '-10px', marginBottom: '10px' }}>
+                            <Link to="/?filter=collection&handle=diva-collection" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Diva Collection</Link>
+                            <Link to="/?filter=collection&handle=queen-collection" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Queen Collection</Link>
+                            <Link to="/?filter=collection&handle=king-collection" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>King Collection</Link>
+                            <Link to="/?filter=collection&handle=princess-collection" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Princess Collection</Link>
+                            <Link to="/?filter=collection&handle=elect-lady-collection" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Elect Lady</Link>
+                        </div>
                         <Link to="/?filter=new-arrivals" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>New Arrivals</Link>
                         <Link to="/about" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
                         <Link to="/?filter=customs" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Customs</Link>

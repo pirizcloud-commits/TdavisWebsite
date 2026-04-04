@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
-import { shopifyFetch, getProductsQuery } from '../lib/ShopifyClient'
+import { shopifyFetch, getProductsQuery, getCollectionsQuery, getCollectionProductsQuery } from '../lib/ShopifyClient'
 
 export default function Home() {
   const [products, setProducts] = useState([])
+  const [collections, setCollections] = useState([])
   const [loading, setLoading] = useState(true)
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const searchQuery = searchParams.get('search') || ''
   const filter = searchParams.get('filter') || ''
 
@@ -14,21 +15,31 @@ export default function Home() {
     async function fetchProducts() {
       setLoading(true)
       try {
+        let query = getProductsQuery;
         let variables = { first: 20 }
         
         if (filter === 'new-arrivals') {
           variables = { first: 8, sortKey: 'CREATED_AT', reverse: true }
         } else if (filter === 'customs') {
           variables = { first: 20, query: 'title:*custom*' }
+        } else if (filter === 'collection' && searchParams.get('handle')) {
+          query = getCollectionProductsQuery;
+          variables = { first: 20, handle: searchParams.get('handle') };
         }
 
         const { status, body } = await shopifyFetch({
-          query: getProductsQuery,
+          query,
           variables,
         })
 
         if (status === 200) {
-          const edges = body.data?.products?.edges || []
+          let edges = []
+          if (filter === 'collection' && searchParams.get('handle')) {
+            edges = body.data?.collection?.products?.edges || []
+          } else {
+            edges = body.data?.products?.edges || []
+          }
+
           const formattedProducts = edges.map(({ node }) => ({
             id: node.id,
             handle: node.handle,
@@ -46,8 +57,24 @@ export default function Home() {
       }
     }
 
+    async function fetchCollections() {
+      try {
+        const { status, body } = await shopifyFetch({
+          query: getCollectionsQuery,
+          variables: { first: 20 }
+        })
+        if (status === 200) {
+          const edges = body.data?.collections?.edges || []
+          setCollections(edges.map(e => e.node).filter(c => c.handle !== 'frontpage'))
+        }
+      } catch (err) {
+        console.error("Error fetching collections:", err)
+      }
+    }
+
+    fetchCollections()
     fetchProducts()
-  }, [filter])
+  }, [filter, searchParams.get('handle')])
 
   const filteredProducts = products.filter(product => 
     product.title.toLowerCase().includes(searchQuery.toLowerCase())

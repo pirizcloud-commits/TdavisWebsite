@@ -70,6 +70,37 @@ export const getCollectionsQuery = `
   }
 `;
 
+export const getCollectionProductsQuery = `
+  query getCollectionProducts($handle: String!, $first: Int!) {
+    collection(handle: $handle) {
+      products(first: $first) {
+        edges {
+          node {
+            id
+            title
+            handle
+            description
+            priceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+            }
+            images(first: 1) {
+              edges {
+                node {
+                  url
+                  altText
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const getProductByHandleQuery = `
   query getProductByHandle($handle: String!) {
     product(handle: $handle) {
