@@ -32,7 +32,7 @@ export default function Footer() {
                 </div>
 
                 <div className="footer-bottom">
-                    © {new Date().getFullYear()} DAZZLING DESIGNZ. ALL RIGHTS RESERVED. POWERED BY HEADLESS SHOPIFY.
+                    © {new Date().getFullYear()} DAZZLING DESIGNZ. ALL RIGHTS RESERVED. POWERED BY GOCLEARWEB.
                 </div>
             </div>
         </footer>
