@@ -26,15 +26,13 @@ export default function Footer() {
                     <div className="footer-col">
                         <h4 className="footer-heading">STAY CONNECTED</h4>
                         <div className="footer-links">
-                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="footer-link">Instagram</a>
-                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="footer-link">Facebook</a>
-                            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="footer-link">TikTok</a>
+                            <a href="https://www.instagram.com/dazzlingdesignz_bytd/" target="_blank" rel="noopener noreferrer" className="footer-link">Instagram</a>
                         </div>
                     </div>
                 </div>
 
                 <div className="footer-bottom">
-                    © {new Date().getFullYear()} DAZZLING DESIGNS. ALL RIGHTS RESERVED. POWERED BY HEADLESS SHOPIFY.
+                    © {new Date().getFullYear()} DAZZLING DESIGNZ. ALL RIGHTS RESERVED. POWERED BY HEADLESS SHOPIFY.
                 </div>
             </div>
         </footer>

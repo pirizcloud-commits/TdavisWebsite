@@ -28,8 +28,8 @@ export async function shopifyFetch({ query, variables }) {
 }
 
 export const getProductsQuery = `
-  query getProducts($first: Int!) {
-    products(first: $first) {
+  query getProducts($first: Int!, $sortKey: ProductSortKeys, $reverse: Boolean, $query: String) {
+    products(first: $first, sortKey: $sortKey, reverse: $reverse, query: $query) {
       edges {
         node {
           id

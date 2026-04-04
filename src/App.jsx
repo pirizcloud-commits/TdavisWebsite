@@ -4,6 +4,7 @@ import Footer from './components/Footer'
 import Home from './pages/Home'
 import ProductDetails from './pages/ProductDetails'
 import Policy from './pages/Policy'
+import About from './pages/About'
 import { CartProvider } from './lib/CartContext'
 import CartDrawer from './components/CartDrawer'
 
@@ -18,6 +19,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/product/:handle" element={<ProductDetails />} />
             <Route path="/policies/:type" element={<Policy />} />
+            <Route path="/about" element={<About />} />
           </Routes>
           <Footer />
         </div>

@@ -8,13 +8,23 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [searchParams] = useSearchParams()
   const searchQuery = searchParams.get('search') || ''
+  const filter = searchParams.get('filter') || ''
 
   useEffect(() => {
     async function fetchProducts() {
+      setLoading(true)
       try {
+        let variables = { first: 20 }
+        
+        if (filter === 'new-arrivals') {
+          variables = { first: 8, sortKey: 'CREATED_AT', reverse: true }
+        } else if (filter === 'customs') {
+          variables = { first: 20, query: 'title:*custom*' }
+        }
+
         const { status, body } = await shopifyFetch({
           query: getProductsQuery,
-          variables: { first: 20 },
+          variables,
         })
 
         if (status === 200) {
@@ -37,7 +47,7 @@ export default function Home() {
     }
 
     fetchProducts()
-  }, [])
+  }, [filter])
 
   const filteredProducts = products.filter(product => 
     product.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -77,7 +87,15 @@ export default function Home() {
         <div className="container">
           <div className="section-header">
             <div>
-              <h2 className="section-title">{searchQuery ? `RESULTS FOR "${searchQuery.toUpperCase()}"` : 'COLLECTIONS ✨'}</h2>
+              <h2 className="section-title">
+                {searchQuery 
+                  ? `RESULTS FOR "${searchQuery.toUpperCase()}"` 
+                  : filter === 'new-arrivals' 
+                    ? 'NEW ARRIVALS ✨'
+                    : filter === 'customs'
+                      ? 'CUSTOMS ✨'
+                      : 'COLLECTIONS ✨'}
+              </h2>
               <p className="section-subtitle">{filteredProducts.length} PRODUCT{filteredProducts.length !== 1 ? 'S' : ''} FOUND</p>
             </div>
 
