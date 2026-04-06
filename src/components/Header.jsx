@@ -32,7 +32,6 @@ export default function Header() {
                         </div>
                         <Link to="/?filter=new-arrivals" className="nav-link">New Arrivals</Link>
                         <Link to="/about" className="nav-link">About</Link>
-                        <Link to="/?filter=customs" className="nav-link">Customs</Link>
                     </div>
 
                     <div className="search-bar">
@@ -73,7 +72,6 @@ export default function Header() {
                         </div>
                         <Link to="/?filter=new-arrivals" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>New Arrivals</Link>
                         <Link to="/about" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
-                        <Link to="/?filter=customs" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Customs</Link>
                     </nav>
                 </div>
             )}
