@@ -45,7 +45,7 @@ export default function Home() {
             handle: node.handle,
             title: node.title,
             price: parseFloat(node.priceRange?.minVariantPrice?.amount || '0').toFixed(2),
-            image: node.images?.edges[0]?.node?.url || '',
+            images: node.images?.edges.map(e => e.node.url) || [],
             onSale: false
           }))
           setProducts(formattedProducts)

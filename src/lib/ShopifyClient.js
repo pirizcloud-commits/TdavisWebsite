@@ -42,7 +42,7 @@ export const getProductsQuery = `
               currencyCode
             }
           }
-          images(first: 1) {
+          images(first: 10) {
             edges {
               node {
                 url
@@ -86,7 +86,7 @@ export const getCollectionProductsQuery = `
                 currencyCode
               }
             }
-            images(first: 1) {
+            images(first: 10) {
               edges {
                 node {
                   url
