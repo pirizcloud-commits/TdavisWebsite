@@ -87,17 +87,11 @@ export default function Home() {
         <div className="container">
           <div className="hero-banner">
             <img
-              src="/images/bead_hero.png"
-              alt="Premium Bead Jewelry"
+              src="/dazzling_designz_logo_full.jpeg"
+              alt="Dazzling Designz"
               className="hero-img"
             />
             <div className="hero-overlay">
-              <h2 className="hero-title">
-                HANDCRAFTED<br />ELEGANCE
-              </h2>
-              <p className="hero-desc">
-                Discover our exclusive collection of vibrant, hand-crafted bead jewelry designed for every occasion.
-              </p>
               <button 
                 className="btn-primary" 
                 onClick={() => document.getElementById('products-grid').scrollIntoView({ behavior: 'smooth' })}

@@ -312,7 +312,7 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: var(--transition);
 }
 
@@ -324,12 +324,13 @@ body {
   position: relative;
   z-index: 1;
   padding: 60px;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.9), transparent);
+  background: transparent;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 .hero-title {
