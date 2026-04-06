@@ -45,15 +45,16 @@ export default function ProductCard({ product }) {
                         overflowX: 'auto', 
                         scrollSnapType: 'x mandatory', 
                         scrollbarWidth: 'none', 
-                        msOverflowStyle: 'none' 
+                        msOverflowStyle: 'none',
+                        height: '100%'
                     }} 
                 >
                     <style>{`
                         .product-image-wrap > div::-webkit-scrollbar { display: none; }
                     `}</style>
                     {images.map((img, idx) => (
-                        <Link to={`/product/${product.handle}`} key={idx} style={{ flex: '0 0 100%', scrollSnapAlign: 'start', textDecoration: 'none', display: 'block', position: 'relative' }}>
-                            <img src={img} alt={`${product.title} view ${idx + 1}`} className="product-image" style={{ width: '100%', display: 'block' }} />
+                        <Link to={`/product/${product.handle}`} key={idx} style={{ flex: '0 0 100%', height: '100%', scrollSnapAlign: 'start', textDecoration: 'none', display: 'block', position: 'relative' }}>
+                            <img src={img} alt={`${product.title} view ${idx + 1}`} className="product-image" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                         </Link>
                     ))}
                 </div>
