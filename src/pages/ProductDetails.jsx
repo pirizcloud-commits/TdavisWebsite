@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { shopifyFetch, getProductByHandleQuery } from '../lib/ShopifyClient'
 import { useCart } from '../lib/CartContext'
 
@@ -7,6 +8,7 @@ export default function ProductDetails() {
   const { handle } = useParams()
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const { addToCart } = useCart()
 
   useEffect(() => {
@@ -47,7 +49,8 @@ export default function ProductDetails() {
   }
 
   const price = parseFloat(product.priceRange?.minVariantPrice?.amount || '0').toFixed(2)
-  const image = product.images?.edges[0]?.node?.url || ''
+  const productImages = product.images?.edges.map(e => e.node.url) || []
+  const currentImage = productImages[currentImageIndex] || ''
   
   const handleAddToCart = () => {
     const variantIdStr = product.variants?.edges[0]?.node?.id
@@ -57,7 +60,7 @@ export default function ProductDetails() {
       id: product.id,
       title: product.title,
       price: price,
-      image: image
+      image: productImages[0] || ''
     }, variantIdStr)
   }
 
@@ -65,14 +68,65 @@ export default function ProductDetails() {
     <main className="container" style={{ padding: '80px 40px' }}>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'start' }}>
         {/* Product Image */}
-        <div style={{ background: 'var(--card-bg)', borderRadius: 'var(--border-radius-lg)', padding: '20px' }}>
-           {image && (
-             <img 
-               src={image} 
-               alt={product.title} 
-               style={{ width: '100%', height: 'auto', borderRadius: 'var(--border-radius-md)', objectFit: 'cover' }} 
-             />
-           )}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Main Image */}
+          <div style={{ background: 'var(--card-bg)', borderRadius: 'var(--border-radius-lg)', padding: '20px', position: 'relative' }}>
+             {currentImage && (
+               <img 
+                 src={currentImage} 
+                 alt={product.title} 
+                 style={{ width: '100%', height: 'auto', borderRadius: 'var(--border-radius-md)', objectFit: 'cover', transition: 'all 0.3s ease' }} 
+               />
+             )}
+             
+             {productImages.length > 1 && (
+               <>
+                 <button 
+                  onClick={() => setCurrentImageIndex(prev => prev === 0 ? productImages.length - 1 : prev - 1)}
+                  style={{ position: 'absolute', left: '30px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(0,0,0,0.6)', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.2)', color: 'white', width: '44px', height: '44px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s ease' }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.9)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,0,0,0.6)'}
+                 >
+                   <ChevronLeft size={24} />
+                 </button>
+                 <button 
+                  onClick={() => setCurrentImageIndex(prev => prev === productImages.length - 1 ? 0 : prev + 1)}
+                  style={{ position: 'absolute', right: '30px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(0,0,0,0.6)', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.2)', color: 'white', width: '44px', height: '44px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s ease' }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.9)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,0,0,0.6)'}
+                 >
+                   <ChevronRight size={24} />
+                 </button>
+               </>
+             )}
+          </div>
+          
+          {/* Thumbnails */}
+          {productImages.length > 1 && (
+            <div style={{ display: 'flex', gap: '12px', overflowX: 'auto', paddingBottom: '8px' }}>
+              {productImages.map((img, i) => (
+                <img 
+                  key={i}
+                  src={img}
+                  alt={`${product.title} view ${i + 1}`}
+                  onClick={() => setCurrentImageIndex(i)}
+                  style={{ 
+                    width: '80px', 
+                    height: '80px', 
+                    objectFit: 'cover', 
+                    borderRadius: '8px', 
+                    cursor: 'pointer', 
+                    border: i === currentImageIndex ? '2px solid white' : '2px solid transparent',
+                    opacity: i === currentImageIndex ? 1 : 0.5,
+                    transition: 'all 0.2s ease',
+                    background: 'var(--card-bg)'
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.opacity = '1'}
+                  onMouseLeave={e => { if (i !== currentImageIndex) e.currentTarget.style.opacity = '0.5' }}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Product Info */}
