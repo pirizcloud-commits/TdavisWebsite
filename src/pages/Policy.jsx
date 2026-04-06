@@ -4,13 +4,38 @@ export default function Policy() {
     const { type } = useParams();
 
     const policyContent = {
-        shipping: {
-            title: "Shipping Policy",
-            content: "We process all orders within 2-3 business days. You will receive a shipment confirmation email once your order has shipped containing your tracking number(s). Thank you for shopping with Dazzling Designs!"
-        },
-        returns: {
-            title: "Return Policy",
-            content: "We accept returns within 30 days of receipt. Items must be unused and in original condition. Please contact our support team to initiate a return or exchange."
+        'sales-and-shipping': {
+            title: "Sales & Shipping Policy",
+            content: (
+                <>
+                    <p style={{ marginBottom: '16px' }}><strong>Please read carefully before placing an order.</strong></p>
+                    
+                    <h3 style={{ marginTop: '32px', marginBottom: '12px', color: 'var(--text-primary)' }}>All Sales Final</h3>
+                    <p style={{ marginBottom: '16px' }}>All purchases are final. We do not offer refunds, returns, or exchanges under any circumstances.</p>
+                    
+                    <h3 style={{ marginTop: '32px', marginBottom: '12px', color: 'var(--text-primary)' }}>Shipping & Delivery</h3>
+                    <p style={{ marginBottom: '16px' }}>Once your order has shipped and a shipping confirmation has been provided, any delivery delays are the responsibility of the postal carrier. We are not responsible for delays, lost packages, or stolen items after shipment has been confirmed.</p>
+                    
+                    <h3 style={{ marginTop: '32px', marginBottom: '12px', color: 'var(--text-primary)' }}>Address Responsibility</h3>
+                    <p style={{ marginBottom: '16px' }}>It is the buyer’s responsibility to ensure that the shipping address is correct at the time of purchase. Any address updates after shipment must be handled directly with the postal service. We are not responsible for orders shipped to an incorrect address provided by the buyer.</p>
+                    
+                    <h3 style={{ marginTop: '32px', marginBottom: '12px', color: 'var(--text-primary)' }}>Payment & Chargebacks</h3>
+                    <p style={{ marginBottom: '16px' }}>Any unauthorized charge disputes or chargebacks on fulfilled orders may result in permanent loss of purchasing privileges. Order records, shipping confirmations, and proof of fulfillment will be provided to payment processors when applicable.</p>
+                    
+                    <h3 style={{ marginTop: '32px', marginBottom: '12px', color: 'var(--text-primary)' }}>Accepted Payment Methods</h3>
+                    <p style={{ marginBottom: '16px' }}>We are only responsible for payments made through official payment methods provided directly by our business. Payments sent through unapproved or third-party methods are made at the buyer’s own risk.</p>
+                    
+                    <h3 style={{ marginTop: '32px', marginBottom: '12px', color: 'var(--text-primary)' }}>Right to Refuse Service</h3>
+                    <p style={{ marginBottom: '16px' }}>We reserve the right to refuse service to anyone at any time, for any reason, without notice.</p>
+                    
+                    <h3 style={{ marginTop: '32px', marginBottom: '12px', color: 'var(--text-primary)' }}>Repairs</h3>
+                    <p style={{ marginBottom: '8px' }}>Repairs are assessed on an individual basis.</p>
+                    <ul style={{ paddingLeft: '24px', marginBottom: '16px' }}>
+                        <li style={{ marginBottom: '8px' }}>The buyer is responsible for shipping the item to our facility.</li>
+                        <li>We will cover the cost of shipping the repaired item back to the buyer.</li>
+                    </ul>
+                </>
+            )
         },
         terms: {
             title: "Terms of Service",
