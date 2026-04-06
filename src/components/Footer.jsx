@@ -17,8 +17,10 @@ export default function Footer() {
                     <div className="footer-col">
                         <h4 className="footer-heading">CUSTOMER CARE</h4>
                         <div className="footer-links">
+                            <Link to="/jewelry-care" className="footer-link">Jewelry Care & Instructions</Link>
                             <Link to="/policies/sales-and-shipping" className="footer-link">Sales & Shipping Policy</Link>
                             <Link to="/policies/terms" className="footer-link">Terms of Service</Link>
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginTop: '8px' }}>Phone: 910-236-9362</p>
                         </div>
                     </div>
 
@@ -26,6 +28,8 @@ export default function Footer() {
                         <h4 className="footer-heading">STAY CONNECTED</h4>
                         <div className="footer-links">
                             <a href="https://www.instagram.com/dazzlingdesignz_bytd/" target="_blank" rel="noopener noreferrer" className="footer-link">Instagram</a>
+                            <a href="https://www.tiktok.com/@dazzlingdesignz_bytd?_r=1&_t=ZP-95K9ULrg0Ni" target="_blank" rel="noopener noreferrer" className="footer-link">TikTok</a>
+                            <a href="https://www.facebook.com/share/18iZBCT77N/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="footer-link">Facebook</a>
                         </div>
                     </div>
                 </div>
