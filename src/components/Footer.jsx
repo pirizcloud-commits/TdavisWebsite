@@ -10,7 +10,7 @@ export default function Footer() {
                             <img src="/dazzling_designz_logo_full.jpeg" alt="Dazzling Designs Logo" className="footer-logo-img" style={{ objectFit: 'cover', objectPosition: 'top', width: '100%', height: '108%', display: 'block', margin: 0 }} />
                         </Link>
                         <p className="footer-desc" style={{ textAlign: 'center', margin: '0 auto' }}>
-                            Premium custom jewelry and luxury timepieces. Handcrafted for those who demand the finest quality.
+                            Premium custom jewelry. Handcrafted for those who demand the finest quality.
                         </p>
                     </div>
 
