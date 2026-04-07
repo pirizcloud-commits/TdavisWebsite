@@ -333,6 +333,26 @@ body {
   align-items: flex-end;
 }
 
+@media (max-width: 768px) {
+  .hero-banner {
+    flex-direction: column;
+    height: auto;
+    padding-bottom: 20px;
+  }
+  
+  .hero-img {
+    position: relative;
+    height: 350px;
+  }
+
+  .hero-overlay {
+    height: auto;
+    padding: 20px 0 0 0;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 .hero-title {
   font-size: 64px;
   font-weight: 900;
