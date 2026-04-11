@@ -147,10 +147,11 @@ export default function ProductDetails() {
           <div style={{ marginTop: '32px', display: 'flex', gap: '16px' }}>
             <button 
               className="btn-primary" 
-              style={{ width: '100%' }}
+              style={{ width: '100%', opacity: product.variants?.edges[0]?.node?.availableForSale ? 1 : 0.5, cursor: product.variants?.edges[0]?.node?.availableForSale ? 'pointer' : 'not-allowed' }}
               onClick={handleAddToCart}
+              disabled={!product.variants?.edges[0]?.node?.availableForSale}
             >
-              Add to Cart
+              {product.variants?.edges[0]?.node?.availableForSale === false ? 'Sold Out' : 'Add to Cart'}
             </button>
           </div>
         </div>

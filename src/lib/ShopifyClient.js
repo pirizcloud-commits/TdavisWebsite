@@ -35,6 +35,7 @@ export const getProductsQuery = `
           id
           title
           handle
+          availableForSale
           description
           priceRange {
             minVariantPrice {
@@ -79,6 +80,7 @@ export const getCollectionProductsQuery = `
             id
             title
             handle
+            availableForSale
             description
             priceRange {
               minVariantPrice {

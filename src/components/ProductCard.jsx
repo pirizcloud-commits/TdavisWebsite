@@ -62,6 +62,10 @@ export default function ProductCard({ product }) {
                 {product.onSale && (
                     <div className="sale-badge">SALE</div>
                 )}
+                
+                {product.availableForSale === false && (
+                    <div className="sold-out-badge">SOLD OUT</div>
+                )}
 
                 {images.length > 1 && (
                     <>

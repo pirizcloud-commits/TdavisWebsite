@@ -439,6 +439,90 @@ body {
   outline: none;
 }
 
+/* Promo Section */
+.promo-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.promo-container {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 60px;
+  align-items: center;
+  background: linear-gradient(145deg, var(--card-bg) 0%, rgba(10,10,10,1) 100%);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 60px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 900px) {
+  .promo-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 40px 20px;
+    gap: 40px;
+  }
+}
+
+.promo-image-wrapper {
+  position: relative;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.promo-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.promo-container:hover .promo-img {
+  transform: scale(1.05);
+}
+
+.promo-title {
+  font-size: 56px;
+  font-weight: 900;
+  font-style: italic;
+  margin-bottom: 20px;
+  line-height: 1.1;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .promo-title {
+    font-size: 36px;
+  }
+}
+
+.promo-desc {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  line-height: 1.8;
+}
+
+.promo-btn {
+  background: var(--accent-primary);
+  color: white;
+  border: 1px solid transparent;
+}
+
+.promo-btn:hover {
+  background: transparent;
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
 /* Product Grid */
 .product-grid {
   display: grid;
@@ -495,6 +579,20 @@ body {
   padding: 6px 12px;
   border-radius: 100px;
   z-index: 2;
+}
+
+.sold-out-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 6px 12px;
+  border-radius: 100px;
+  z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .product-title {

@@ -16,7 +16,7 @@ export default function Home() {
       setLoading(true)
       try {
         let query = getProductsQuery;
-        let variables = { first: 20 }
+        let variables = { first: 20, sortKey: 'CREATED_AT', reverse: true }
         
         if (filter === 'new-arrivals') {
           variables = { first: 8, sortKey: 'CREATED_AT', reverse: true }
@@ -46,6 +46,7 @@ export default function Home() {
             title: node.title,
             price: parseFloat(node.priceRange?.minVariantPrice?.amount || '0').toFixed(2),
             images: node.images?.edges.map(e => e.node.url) || [],
+            availableForSale: node.availableForSale,
             onSale: false
           }))
           setProducts(formattedProducts)
@@ -82,7 +83,32 @@ export default function Home() {
 
   return (
     <main>
-      {/* Hero Section */}
+      {/* Featured Flyer Section */}
+      <section className="promo-section" style={{ padding: '40px 0' }}>
+        <div className="container">
+          <div className="promo-container">
+            <div className="promo-content">
+              <h2 className="promo-title">Dazzling Designz Promo</h2>
+              <p className="promo-desc">Explore what's new and discover the unique flair of our latest featured designs. Custom pieces curated just for you!</p>
+              <button 
+                className="btn-primary promo-btn"
+                onClick={() => document.getElementById('products-grid').scrollIntoView({ behavior: 'smooth' })}
+              >
+                Shop Now
+              </button>
+            </div>
+            <div className="promo-image-wrapper">
+              <img 
+                src="/images/dazzling-design-flyer.png" 
+                alt="Dazzling Designz Featured Event" 
+                className="promo-img"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* TEMPORARILY DISABLED HERO SECTION
       <section className="hero">
         <div className="container">
           <div className="hero-banner">
@@ -102,6 +128,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      */}
 
       {/* Collection Section */}
       <section className="products" id="products-grid">
