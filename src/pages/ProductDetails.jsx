@@ -48,9 +48,20 @@ export default function ProductDetails() {
     )
   }
 
-  const price = parseFloat(product.priceRange?.minVariantPrice?.amount || '0').toFixed(2)
-  const productImages = product.images?.edges.map(e => e.node.url) || []
-  const currentImage = productImages[currentImageIndex] || ''
+  const price = parseFloat(product.priceRange?.minVariantPrice?.amount || '0').toFixed(2);
+
+  const productMedia = product.media?.edges.map(e => {
+    if (e.node.mediaContentType === 'VIDEO') {
+       const mp4Source = e.node.sources?.find(s => s.format === 'mp4' || s.mimeType === 'video/mp4') || e.node.sources?.[0];
+       return { type: 'video', url: mp4Source?.url };
+    }
+    if (e.node.mediaContentType === 'IMAGE') {
+       return { type: 'image', url: e.node.image?.url };
+    }
+    return null;
+  }).filter(Boolean) || (product.images?.edges.map(e => ({ type: 'image', url: e.node.url })) || []);
+  
+  const currentMedia = productMedia[currentImageIndex] || { type: 'image', url: '' }
   
   const handleAddToCart = () => {
     const variantIdStr = product.variants?.edges[0]?.node?.id
@@ -60,7 +71,7 @@ export default function ProductDetails() {
       id: product.id,
       title: product.title,
       price: price,
-      image: productImages[0] || ''
+      image: product.images?.edges[0]?.node?.url || ''
     }, variantIdStr)
   }
 
@@ -71,18 +82,26 @@ export default function ProductDetails() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {/* Main Image */}
           <div style={{ background: 'var(--card-bg)', borderRadius: 'var(--border-radius-lg)', padding: '20px', position: 'relative' }}>
-             {currentImage && (
-               <img 
-                 src={currentImage} 
-                 alt={product.title} 
-                 style={{ width: '100%', height: 'auto', borderRadius: 'var(--border-radius-md)', objectFit: 'cover', transition: 'all 0.3s ease' }} 
-               />
+             {currentMedia.url && (
+               currentMedia.type === 'video' ? (
+                 <video 
+                   src={currentMedia.url} 
+                   autoPlay muted loop playsInline controls
+                   style={{ width: '100%', height: 'auto', borderRadius: 'var(--border-radius-md)', objectFit: 'cover', transition: 'all 0.3s ease' }} 
+                 />
+               ) : (
+                 <img 
+                   src={currentMedia.url} 
+                   alt={product.title} 
+                   style={{ width: '100%', height: 'auto', borderRadius: 'var(--border-radius-md)', objectFit: 'cover', transition: 'all 0.3s ease' }} 
+                 />
+               )
              )}
              
-             {productImages.length > 1 && (
+             {productMedia.length > 1 && (
                <>
                  <button 
-                  onClick={() => setCurrentImageIndex(prev => prev === 0 ? productImages.length - 1 : prev - 1)}
+                  onClick={() => setCurrentImageIndex(prev => prev === 0 ? productMedia.length - 1 : prev - 1)}
                   style={{ position: 'absolute', left: '30px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(0,0,0,0.6)', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.2)', color: 'white', width: '44px', height: '44px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s ease' }}
                   onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.9)'}
                   onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,0,0,0.6)'}
@@ -90,7 +109,7 @@ export default function ProductDetails() {
                    <ChevronLeft size={24} />
                  </button>
                  <button 
-                  onClick={() => setCurrentImageIndex(prev => prev === productImages.length - 1 ? 0 : prev + 1)}
+                  onClick={() => setCurrentImageIndex(prev => prev === productMedia.length - 1 ? 0 : prev + 1)}
                   style={{ position: 'absolute', right: '30px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(0,0,0,0.6)', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.2)', color: 'white', width: '44px', height: '44px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s ease' }}
                   onMouseEnter={e => e.currentTarget.style.background = 'rgba(0,0,0,0.9)'}
                   onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,0,0,0.6)'}
@@ -102,28 +121,50 @@ export default function ProductDetails() {
           </div>
           
           {/* Thumbnails */}
-          {productImages.length > 1 && (
+          {productMedia.length > 1 && (
             <div style={{ display: 'flex', gap: '12px', overflowX: 'auto', paddingBottom: '8px' }}>
-              {productImages.map((img, i) => (
-                <img 
-                  key={i}
-                  src={img}
-                  alt={`${product.title} view ${i + 1}`}
-                  onClick={() => setCurrentImageIndex(i)}
-                  style={{ 
-                    width: '80px', 
-                    height: '80px', 
-                    objectFit: 'cover', 
-                    borderRadius: '8px', 
-                    cursor: 'pointer', 
-                    border: i === currentImageIndex ? '2px solid white' : '2px solid transparent',
-                    opacity: i === currentImageIndex ? 1 : 0.5,
-                    transition: 'all 0.2s ease',
-                    background: 'var(--card-bg)'
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.opacity = '1'}
-                  onMouseLeave={e => { if (i !== currentImageIndex) e.currentTarget.style.opacity = '0.5' }}
-                />
+              {productMedia.map((item, i) => (
+                item.type === 'video' ? (
+                  <video
+                    key={i}
+                    src={item.url}
+                    muted playsInline
+                    onClick={() => setCurrentImageIndex(i)}
+                    style={{ 
+                      width: '80px', 
+                      height: '80px', 
+                      objectFit: 'cover', 
+                      borderRadius: '8px', 
+                      cursor: 'pointer', 
+                      border: i === currentImageIndex ? '2px solid white' : '2px solid transparent',
+                      opacity: i === currentImageIndex ? 1 : 0.5,
+                      transition: 'all 0.2s ease',
+                      background: 'var(--card-bg)'
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.opacity = '1'}
+                    onMouseLeave={e => { if (i !== currentImageIndex) e.currentTarget.style.opacity = '0.5' }}
+                  />
+                ) : (
+                  <img 
+                    key={i}
+                    src={item.url}
+                    alt={`${product.title} view ${i + 1}`}
+                    onClick={() => setCurrentImageIndex(i)}
+                    style={{ 
+                      width: '80px', 
+                      height: '80px', 
+                      objectFit: 'cover', 
+                      borderRadius: '8px', 
+                      cursor: 'pointer', 
+                      border: i === currentImageIndex ? '2px solid white' : '2px solid transparent',
+                      opacity: i === currentImageIndex ? 1 : 0.5,
+                      transition: 'all 0.2s ease',
+                      background: 'var(--card-bg)'
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.opacity = '1'}
+                    onMouseLeave={e => { if (i !== currentImageIndex) e.currentTarget.style.opacity = '0.5' }}
+                  />
+                )
               ))}
             </div>
           )}

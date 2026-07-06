@@ -6,7 +6,7 @@ export default function ProductCard({ product }) {
     const scrollContainerRef = useRef(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
-    const images = product.images || (product.image ? [product.image] : []);
+    const media = product.media?.length > 0 ? product.media : (product.images?.length > 0 ? product.images.map(url => ({ type: 'image', url })) : (product.image ? [{ type: 'image', url: product.image }] : []));
 
     const handleScroll = (e) => {
         const scrollLeft = e.target.scrollLeft;
@@ -52,9 +52,13 @@ export default function ProductCard({ product }) {
                     <style>{`
                         .product-image-wrap > div::-webkit-scrollbar { display: none; }
                     `}</style>
-                    {images.map((img, idx) => (
+                    {media.map((item, idx) => (
                         <Link to={`/product/${product.handle}`} key={idx} style={{ flex: '0 0 100%', height: '100%', scrollSnapAlign: 'start', textDecoration: 'none', display: 'block', position: 'relative' }}>
-                            <img src={img} alt={`${product.title} view ${idx + 1}`} className="product-image" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                            {item.type === 'video' ? (
+                                <video src={item.url} autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                            ) : (
+                                <img src={item.url} alt={`${product.title} view ${idx + 1}`} className="product-image" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                            )}
                         </Link>
                     ))}
                 </div>
@@ -67,7 +71,7 @@ export default function ProductCard({ product }) {
                     <div className="sold-out-badge">SOLD OUT</div>
                 )}
 
-                {images.length > 1 && (
+                {media.length > 1 && (
                     <>
                         <button 
                             onClick={scrollToPrev}
@@ -83,7 +87,7 @@ export default function ProductCard({ product }) {
                         </button>
 
                         <div style={{ position: 'absolute', bottom: '15px', left: '0', width: '100%', display: 'flex', justifyContent: 'center', gap: '6px', pointerEvents: 'none', zIndex: 2 }}>
-                            {images.map((_, i) => (
+                            {media.map((_, i) => (
                                 <div key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', background: i === currentImageIndex ? 'white' : 'rgba(255,255,255,0.4)', transition: 'background 0.2s ease', boxShadow: '0 1px 2px rgba(0,0,0,0.3)' }} />
                             ))}
                         </div>

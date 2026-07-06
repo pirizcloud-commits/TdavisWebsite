@@ -51,6 +51,26 @@ export const getProductsQuery = `
               }
             }
           }
+          media(first: 10) {
+            edges {
+              node {
+                mediaContentType
+                ... on MediaImage {
+                  image {
+                    url
+                    altText
+                  }
+                }
+                ... on Video {
+                  sources {
+                    format
+                    mimeType
+                    url
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -96,6 +116,26 @@ export const getCollectionProductsQuery = `
                 }
               }
             }
+            media(first: 10) {
+              edges {
+                node {
+                  mediaContentType
+                  ... on MediaImage {
+                    image {
+                      url
+                      altText
+                    }
+                  }
+                  ... on Video {
+                    sources {
+                      format
+                      mimeType
+                      url
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -122,6 +162,26 @@ export const getProductByHandleQuery = `
           node {
             url
             altText
+          }
+        }
+      }
+      media(first: 10) {
+        edges {
+          node {
+            mediaContentType
+            ... on MediaImage {
+              image {
+                url
+                altText
+              }
+            }
+            ... on Video {
+              sources {
+                format
+                mimeType
+                url
+              }
+            }
           }
         }
       }

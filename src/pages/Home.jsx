@@ -46,6 +46,16 @@ export default function Home() {
             title: node.title,
             price: parseFloat(node.priceRange?.minVariantPrice?.amount || '0').toFixed(2),
             images: node.images?.edges.map(e => e.node.url) || [],
+            media: node.media?.edges.map(e => {
+              if (e.node.mediaContentType === 'VIDEO') {
+                const mp4Source = e.node.sources?.find(s => s.format === 'mp4' || s.mimeType === 'video/mp4') || e.node.sources?.[0];
+                return { type: 'video', url: mp4Source?.url };
+              }
+              if (e.node.mediaContentType === 'IMAGE') {
+                return { type: 'image', url: e.node.image?.url };
+              }
+              return null;
+            }).filter(Boolean) || [],
             availableForSale: node.availableForSale,
             onSale: false
           }))
