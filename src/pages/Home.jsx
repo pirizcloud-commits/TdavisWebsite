@@ -16,15 +16,17 @@ export default function Home() {
       setLoading(true)
       try {
         let query = getProductsQuery;
-        let variables = { first: 20, sortKey: 'CREATED_AT', reverse: true }
+        let variables = { first: 250, sortKey: 'CREATED_AT', reverse: true };
         
         if (filter === 'new-arrivals') {
           variables = { first: 8, sortKey: 'CREATED_AT', reverse: true }
         } else if (filter === 'customs') {
-          variables = { first: 20, query: 'title:*custom*' }
+          variables = { first: 250, query: 'title:*custom*' }
+        } else if (filter === 'category' && searchParams.get('type')) {
+          variables = { first: 250, query: searchParams.get('type') }
         } else if (filter === 'collection' && searchParams.get('handle')) {
           query = getCollectionProductsQuery;
-          variables = { first: 20, handle: searchParams.get('handle') };
+          variables = { first: 250, handle: searchParams.get('handle') };
         }
 
         const { status, body } = await shopifyFetch({
@@ -40,13 +42,8 @@ export default function Home() {
             edges = body.data?.products?.edges || []
           }
 
-          const formattedProducts = edges.map(({ node }) => ({
-            id: node.id,
-            handle: node.handle,
-            title: node.title,
-            price: parseFloat(node.priceRange?.minVariantPrice?.amount || '0').toFixed(2),
-            images: node.images?.edges.map(e => e.node.url) || [],
-            media: node.media?.edges.map(e => {
+          const formattedProducts = edges.map(({ node }) => {
+            let parsedMedia = node.media?.edges.map(e => {
               if (e.node.mediaContentType === 'VIDEO') {
                 const mp4Source = e.node.sources?.find(s => s.format === 'mp4' || s.mimeType === 'video/mp4') || e.node.sources?.[0];
                 return { type: 'video', url: mp4Source?.url };
@@ -55,10 +52,22 @@ export default function Home() {
                 return { type: 'image', url: e.node.image?.url };
               }
               return null;
-            }).filter(Boolean) || [],
-            availableForSale: node.availableForSale,
-            onSale: false
-          }))
+            }).filter(Boolean) || [];
+            
+            // Prioritize videos to be the default image if available
+            parsedMedia.sort((a, b) => (a.type === 'video' ? -1 : (b.type === 'video' ? 1 : 0)));
+
+            return {
+              id: node.id,
+              handle: node.handle,
+              title: node.title,
+              price: parseFloat(node.priceRange?.minVariantPrice?.amount || '0').toFixed(2),
+              images: node.images?.edges.map(e => e.node.url) || [],
+              media: parsedMedia,
+              availableForSale: node.availableForSale,
+              onSale: false
+            };
+          });
           setProducts(formattedProducts)
         }
       } catch (error) {
@@ -85,7 +94,7 @@ export default function Home() {
 
     fetchCollections()
     fetchProducts()
-  }, [filter, searchParams.get('handle')])
+  }, [filter, searchParams.get('handle'), searchParams.get('type')])
 
   const filteredProducts = products.filter(product => 
     product.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -152,7 +161,11 @@ export default function Home() {
                     ? 'NEW ARRIVALS ✨'
                     : filter === 'customs'
                       ? 'CUSTOMS ✨'
-                      : 'COLLECTIONS ✨'}
+                      : filter === 'category' && searchParams.get('type')
+                        ? `${searchParams.get('type').toUpperCase()} ✨`
+                        : filter === 'collection' && searchParams.get('handle')
+                          ? `${searchParams.get('handle').replace(/-/g, ' ').toUpperCase()} ✨`
+                          : 'COLLECTIONS ✨'}
               </h2>
               <p className="section-subtitle">{filteredProducts.length} PRODUCT{filteredProducts.length !== 1 ? 'S' : ''} FOUND</p>
             </div>

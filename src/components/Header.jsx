@@ -23,11 +23,10 @@ export default function Header() {
                         <div className="nav-item-dropdown">
                             <Link to="/" className="nav-link">Shop All</Link>
                             <div className="dropdown-menu">
-                                <Link to="/?filter=collection&handle=queen-collection" className="dropdown-link">Queen Collection</Link>
-                                <Link to="/?filter=collection&handle=king-collection" className="dropdown-link">King Collection</Link>
-                                <Link to="/?filter=collection&handle=prince-collection" className="dropdown-link">Prince Collection</Link>
-                                <Link to="/?filter=collection&handle=princess-collection" className="dropdown-link">Princess Collection</Link>
-                                <Link to="/?filter=collection&handle=elect-lady-collection" className="dropdown-link">Elect Lady Collection</Link>
+                                <Link to="/?filter=category&type=Necklaces" className="dropdown-link">Necklaces</Link>
+                                <Link to="/?filter=category&type=Bracelets" className="dropdown-link">Bracelets</Link>
+                                <Link to="/?filter=category&type=Anklets" className="dropdown-link">Anklets</Link>
+                                <Link to="/?filter=category&type=Personal Services" className="dropdown-link">Personal Services</Link>
                             </div>
                         </div>
                         <Link to="/?filter=new-arrivals" className="nav-link">New Arrivals</Link>
@@ -64,11 +63,10 @@ export default function Header() {
                     <nav className="mobile-nav-links">
                         <Link to="/" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Shop All</Link>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px', marginTop: '-10px', marginBottom: '10px' }}>
-                            <Link to="/?filter=collection&handle=queen-collection" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Queen Collection</Link>
-                            <Link to="/?filter=collection&handle=king-collection" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>King Collection</Link>
-                            <Link to="/?filter=collection&handle=prince-collection" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Prince Collection</Link>
-                            <Link to="/?filter=collection&handle=princess-collection" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Princess Collection</Link>
-                            <Link to="/?filter=collection&handle=elect-lady-collection" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Elect Lady</Link>
+                            <Link to="/?filter=category&type=Necklaces" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Necklaces</Link>
+                            <Link to="/?filter=category&type=Bracelets" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Bracelets</Link>
+                            <Link to="/?filter=category&type=Anklets" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Anklets</Link>
+                            <Link to="/?filter=category&type=Personal Services" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Personal Services</Link>
                         </div>
                         <Link to="/?filter=new-arrivals" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>New Arrivals</Link>
                         <Link to="/about" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
