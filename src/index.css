@@ -477,13 +477,8 @@ body {
 .promo-img {
   width: 100%;
   height: auto;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
-  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.promo-container:hover .promo-img {
-  transform: scale(1.05);
 }
 
 .promo-title {
@@ -512,15 +507,15 @@ body {
 }
 
 .promo-btn {
-  background: var(--accent-primary);
-  color: white;
+  background: #e4bf7a;
+  color: #000;
   border: 1px solid transparent;
 }
 
 .promo-btn:hover {
   background: transparent;
-  color: var(--accent-primary);
-  border-color: var(--accent-primary);
+  color: #e4bf7a;
+  border-color: #e4bf7a;
 }
 
 /* Product Grid */

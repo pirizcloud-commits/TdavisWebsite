@@ -107,7 +107,7 @@ export default function Home() {
         <div className="container">
           <div className="promo-container">
             <div className="promo-content">
-              <h2 className="promo-title">Dazzling Designz Promo</h2>
+              <h2 className="promo-title">Dazzling Designz</h2>
               <p className="promo-desc">Explore what's new and discover the unique flair of our latest featured designs. Custom pieces curated just for you!</p>
               <button 
                 className="btn-primary promo-btn"
