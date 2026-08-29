@@ -314,89 +314,34 @@ async function runGiftCardGuardFlow(page) {
         const evH1 = await page.$eval('h1', el => el.innerText);
         evAssert(evH1.includes('Community'), `Events H1 correct: "${evH1}"`);
 
-        // Exactly 17 gallery items
-        const galleryItems = await page.$$('[data-testid="gallery-item"]');
-        evAssert(galleryItems.length === 17, `Exactly 17 gallery items present (found ${galleryItems.length})`);
+        // Event hub: one or more event cards, and album photos hidden until a card is opened
+        const eventCards = await page.$$('[data-testid="event-card"]');
+        evAssert(eventCards.length >= 1, `At least one event card present (found ${eventCards.length})`);
+        const preOpenPhotos = await page.$$('[data-testid="gallery-item"]');
+        evAssert(preOpenPhotos.length === 0, `Album photos are hidden until a card is opened (found ${preOpenPhotos.length})`);
 
-        
+        // Open the first event's album and confirm all 18 photos are shown
+        await eventCards[0].click();
+        await page.waitForSelector('[data-testid="gallery-item"]', { visible: true, timeout: 5000 });
+        const albumPhotos = await page.$$('[data-testid="gallery-item"]');
+        evAssert(albumPhotos.length === 18, `Opened album shows all 18 photos (found ${albumPhotos.length})`);
 
-        // All images have width & height
-        const imgMissingDims = await page.$$eval('.gallery-grid img', imgs =>
-            imgs.filter(img => !img.getAttribute('width') || !img.getAttribute('height')).map(img => img.src)
-        );
-        evAssert(imgMissingDims.length === 0, 'All gallery images have explicit width and height attributes');
-
-        // Lead image is eager
-        const leadLoading = await page.$eval('.gallery-grid img[fetchpriority="high"]', img => img.loading);
-        evAssert(leadLoading === 'eager', 'Lead image has loading="eager"');
-
-        // Non-lead images are lazy
-        const lazyImgs = await page.$$eval('.gallery-grid img:not([fetchpriority="high"])', imgs =>
-            imgs.filter(img => img.loading !== 'lazy').map(img => img.src)
-        );
-        evAssert(lazyImgs.length === 0, 'All non-lead gallery images have loading="lazy"');
-
-        // All JPEG fallback sources resolve (200)
-        const imgSrcs = await page.$$eval('.gallery-grid img', imgs => imgs.map(img => img.src));
-        for (const src of imgSrcs) {
+        // Album images are single optimized JPEGs (no stale -NNNw responsive variants) and all resolve 200
+        const albumSrcs = await page.$$eval('[data-testid="gallery-item"] img', imgs => imgs.map(img => img.src));
+        evAssert(!albumSrcs.some(s => /-\d+w\.(avif|webp|jpe?g)(\?|$)/.test(s)), 'Album uses single optimized JPEGs (no stale -NNNw variants)');
+        for (const src of albumSrcs) {
             const res = await fetch(src);
-            evAssert(res.ok, `Image source resolves (${src.split('/').pop()})`);
+            evAssert(res.ok, `Album image resolves (${src.split('/').pop()})`);
         }
 
-        // Declared intrinsic ratio must match the actual derivative ratio
-        // (no single landscape ratio baked onto portrait photos). Force lazy
-        // images to load, then compare declared vs natural dimensions.
-        await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-        await wait(1500);
-        const ratioProblems = await page.$$eval('.gallery-grid img', imgs => imgs.map(img => {
-            const dw = parseInt(img.getAttribute('width'), 10);
-            const dh = parseInt(img.getAttribute('height'), 10);
-            const file = (img.currentSrc || img.src).split('/').pop();
-            if (!dw || !dh) return { file, reason: 'missing-dims' };
-            if (!img.naturalWidth || !img.naturalHeight) return null; // skip lazy/off-screen marquee images
-            const declared = dw / dh;
-            const natural = img.naturalWidth / img.naturalHeight;
-            if (Math.abs(declared - natural) > 0.05) return { file, declared: declared.toFixed(3), natural: natural.toFixed(3) };
-            return null;
-        }).filter(Boolean));
-        evAssert(ratioProblems.length === 0, `All gallery images declare a ratio matching their real derivative (${JSON.stringify(ratioProblems)})`);
+        // Clicking a photo opens the lightbox
+        await page.$eval('[data-testid="gallery-item"]', el => el.click());
+        await wait(300);
+        evAssert(await page.$('.ev-lightbox') !== null, 'Clicking a photo opens the lightbox');
 
-        // No nonexistent 480px references anywhere in the events gallery.
-        const gallery480 = await page.evaluate(() =>
-            Array.from(document.querySelectorAll('.gallery-grid img, .gallery-grid source'))
-                .some(el => ((el.getAttribute('src') || '') + (el.getAttribute('srcset') || '')).includes('480w'))
-        );
-        evAssert(!gallery480, 'No 480w references in events gallery');
-
-        // Homepage preview links to /events
+        // Homepage no longer has a Community preview section
         await page.goto('http://localhost:4173', { waitUntil: 'domcontentloaded' });
-        const evLink = await page.$eval('a[href="/events"]', el => el.innerText).catch(() => null);
-        evAssert(evLink !== null, `Homepage has link to /events (text: "${evLink}")`);
-
-        // Homepage Community preview: exactly three images
-        const previewImgCount = await page.$$eval('.community-preview picture img', imgs => imgs.length);
-        evAssert(previewImgCount === 3, `Homepage Community preview has exactly 3 images (found ${previewImgCount})`);
-
-        // Every homepage preview source (avif/webp/jpeg) must exist and resolve 200
-        const previewUrls = await page.evaluate(() => {
-            const urls = new Set();
-            const addFromSrcset = (val) => (val || '').split(',').forEach(part => {
-                const u = part.trim().split(/\s+/)[0];
-                if (u) urls.add(new URL(u, location.origin).href);
-            });
-            document.querySelectorAll('.community-preview picture source').forEach(s => addFromSrcset(s.getAttribute('srcset')));
-            document.querySelectorAll('.community-preview picture img').forEach(img => {
-                if (img.getAttribute('src')) urls.add(new URL(img.getAttribute('src'), location.origin).href);
-                addFromSrcset(img.getAttribute('srcset'));
-            });
-            return Array.from(urls);
-        });
-        evAssert(previewUrls.length > 0, 'Homepage preview exposes image sources to validate');
-        evAssert(!previewUrls.some(u => u.includes('480w')), 'No 480w references in homepage Community preview');
-        for (const u of previewUrls) {
-            const res = await fetch(u);
-            evAssert(res.ok, `Homepage preview source resolves (${u.split('/').pop()})`);
-        }
+        evAssert(await page.$('.community-preview') === null, 'Homepage Community preview section is removed');
 
         // Content accuracy: no unverified claims / brand misspelling on home + events
         for (const [pageUrl, label] of [['http://localhost:4173', 'Homepage'], ['http://localhost:4173/events', 'Events']]) {

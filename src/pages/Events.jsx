@@ -54,21 +54,21 @@ export default function Events() {
         .ev-card { background: var(--surface-color, #1a1a1d); border: 1px solid var(--border-color, #26262b);
           border-radius: 14px; overflow: hidden; cursor: pointer; transition: transform .2s, border-color .2s;
           display: flex; flex-direction: column; text-align: left; padding: 0; color: inherit; font: inherit; width: 100%; }
-        .ev-card:hover, .ev-card:focus-visible { transform: translateY(-3px); border-color: var(--accent-primary, #c9a96a); outline: none; }
+        .ev-card:hover, .ev-card:focus-visible { transform: translateY(-3px); border-color: #e4bf7a; outline: none; }
         .ev-cover { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
         .ev-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .ev-count { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,.6); color: #fff;
           font-size: .72rem; padding: 5px 10px; border-radius: 100px; }
         .ev-body { padding: 16px 18px 20px; }
         .ev-body h3 { margin: 0 0 6px; font-size: 1.2rem; }
-        .ev-meta { color: var(--accent-primary, #c9a96a); font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 10px; }
+        .ev-meta { color: #e4bf7a; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 10px; }
         .ev-blurb { color: var(--text-secondary); font-size: .9rem; line-height: 1.5; margin: 0; }
-        .ev-view { margin-top: 14px; color: var(--accent-primary, #c9a96a); font-size: .85rem; font-weight: 600; }
+        .ev-view { margin-top: 14px; color: #e4bf7a; font-size: .85rem; font-weight: 600; }
         .ev-modal { position: fixed; inset: 0; background: rgba(8,8,10,.96); z-index: 1200; overflow: auto; }
         .ev-mhead { position: sticky; top: 0; background: rgba(15,15,17,.92); backdrop-filter: blur(4px);
           display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid var(--border-color, #26262b); }
         .ev-mhead h2 { margin: 0; font-size: 1.4rem; }
-        .ev-mmeta { color: var(--accent-primary, #c9a96a); font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; margin-top: 4px; }
+        .ev-mmeta { color: #e4bf7a; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; margin-top: 4px; }
         .ev-x { background: none; border: 1px solid #3a3a40; color: #eee; border-radius: 100px; width: 42px; height: 42px; font-size: 1.3rem; cursor: pointer; }
         .ev-album { max-width: 1040px; margin: 0 auto; padding: 24px; columns: 3; column-gap: 14px; }
         .ev-ph { border: none; padding: 0; background: none; cursor: zoom-in; display: block; width: 100%;
@@ -79,6 +79,13 @@ export default function Events() {
         .ev-lightbox img { max-width: 92vw; max-height: 92vh; border-radius: 8px; }
         @media (max-width: 800px) { .ev-album { columns: 2; } }
         @media (max-width: 520px) { .ev-album { columns: 1; } }
+        .ev-shop { display: inline-block; padding: 18px 40px; border-radius: 100px; font-weight: 900;
+          text-transform: uppercase; letter-spacing: 2px; font-size: .82rem; text-decoration: none;
+          cursor: pointer; transition: var(--transition, all .3s ease); border: 1px solid #e4bf7a; }
+        .ev-shop--gold { background: #e4bf7a; color: #000; }
+        .ev-shop--gold:hover { background: transparent; color: #e4bf7a; border-color: #e4bf7a; }
+        .ev-shop--outline { background: transparent; color: #e4bf7a; }
+        .ev-shop--outline:hover { background: #e4bf7a; color: #000; }
       `}</style>
 
       <section className="container" style={{ paddingTop: '100px', paddingBottom: '40px' }}>
@@ -113,9 +120,9 @@ export default function Events() {
         <div style={{ marginTop: '70px', paddingTop: '40px', borderTop: '1px solid var(--border-color)', textAlign: 'center' }}>
           <h2 style={{ marginBottom: '24px' }}>Explore the Collection</h2>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/collections/necklaces" className="btn-secondary">Shop Necklaces</Link>
-            <Link to="/collections/bracelets-1" className="btn-secondary">Shop Bracelets</Link>
-            <Link to="/" className="btn-primary">Shop All</Link>
+            <Link to="/collections/necklaces" className="ev-shop ev-shop--outline">Shop Necklaces</Link>
+            <Link to="/collections/bracelets-1" className="ev-shop ev-shop--outline">Shop Bracelets</Link>
+            <Link to="/" className="ev-shop ev-shop--gold">Shop All</Link>
           </div>
         </div>
       </section>
