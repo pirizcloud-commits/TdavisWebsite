@@ -1,8 +1,10 @@
+import { SHOPIFY_API_VERSION } from './shopifyApiVersion.js';
+
 const SHOPIFY_STOREFRONT_ACCESS_TOKEN = import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN || '';
 const SHOPIFY_DOMAIN = import.meta.env.VITE_SHOPIFY_DOMAIN || '';
 
 export async function shopifyFetch({ query, variables }) {
-  const endpoint = `https://${SHOPIFY_DOMAIN}/api/2024-01/graphql.json`;
+  const endpoint = `https://${SHOPIFY_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
 
   try {
     const result = await fetch(endpoint, {
@@ -71,6 +73,14 @@ export const getProductsQuery = `
               }
             }
           }
+          variants(first: 50) {
+            edges {
+              node {
+                price { amount }
+                selectedOptions { name value }
+              }
+            }
+          }
         }
       }
     }
@@ -85,6 +95,10 @@ export const getCollectionsQuery = `
           id
           title
           handle
+          image {
+            url
+            altText
+          }
         }
       }
     }
@@ -94,6 +108,13 @@ export const getCollectionsQuery = `
 export const getCollectionProductsQuery = `
   query getCollectionProducts($handle: String!, $first: Int!) {
     collection(handle: $handle) {
+      title
+      description
+      handle
+      image {
+        url
+        altText
+      }
       products(first: $first) {
         edges {
           node {
@@ -133,6 +154,14 @@ export const getCollectionProductsQuery = `
                       url
                     }
                   }
+                }
+              }
+            }
+            variants(first: 50) {
+              edges {
+                node {
+                  price { amount }
+                  selectedOptions { name value }
                 }
               }
             }
@@ -185,15 +214,20 @@ export const getProductByHandleQuery = `
           }
         }
       }
-      variants(first: 1) {
+      variants(first: 50) {
         edges {
           node {
             id
+            sku
             title
             availableForSale
             price {
               amount
               currencyCode
+            }
+            selectedOptions {
+              name
+              value
             }
           }
         }

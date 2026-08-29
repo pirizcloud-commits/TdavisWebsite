@@ -1,6 +1,16 @@
-import fs from 'fs';
-const SHOPIFY_DOMAIN = 'dazzling-designz-5373.myshopify.com';
-const TOKEN = '4e0def04b3e9672c1f293d26977f048e';
+/* global process */
+// Manual Storefront API probe for products.
+// Run: node --env-file=.env.production test-api.mjs
+// Credentials are read from the environment — no secrets are hardcoded here.
+import { SHOPIFY_API_VERSION } from './src/lib/shopifyApiVersion.js';
+
+const SHOPIFY_DOMAIN = process.env.VITE_SHOPIFY_DOMAIN || '';
+const TOKEN = process.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN || '';
+
+if (!SHOPIFY_DOMAIN || !TOKEN) {
+  console.error('Missing VITE_SHOPIFY_DOMAIN / VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN. Run: node --env-file=.env.production test-api.mjs');
+  process.exit(1);
+}
 
 const query = `
   query getProducts($first: Int!, $sortKey: ProductSortKeys, $reverse: Boolean, $query: String) {
@@ -15,7 +25,7 @@ const query = `
 `;
 
 async function fetchProducts(variables) {
-  const res = await fetch(`https://${SHOPIFY_DOMAIN}/api/2024-01/graphql.json`, {
+  const res = await fetch(`https://${SHOPIFY_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

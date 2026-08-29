@@ -6,6 +6,8 @@ import ProductDetails from './pages/ProductDetails'
 import Policy from './pages/Policy'
 import About from './pages/About'
 import JewelryCare from './pages/JewelryCare'
+import CollectionDetails from './pages/CollectionDetails'
+import Events from './pages/Events'
 import { CartProvider } from './lib/CartContext'
 import CartDrawer from './components/CartDrawer'
 
@@ -22,6 +24,8 @@ function App() {
             <Route path="/policies/:type" element={<Policy />} />
             <Route path="/about" element={<About />} />
             <Route path="/jewelry-care" element={<JewelryCare />} />
+            <Route path="/collections/:handle" element={<CollectionDetails />} />
+            <Route path="/events" element={<Events />} />
           </Routes>
           <Footer />
         </div>

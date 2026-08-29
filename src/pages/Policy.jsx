@@ -1,4 +1,6 @@
 import { useParams } from 'react-router-dom';
+import SEO from '../components/SEO';
+import { getBreadcrumbSchema } from '../lib/jsonld';
 
 export default function Policy() {
     const { type } = useParams();
@@ -39,7 +41,7 @@ export default function Policy() {
         },
         terms: {
             title: "Terms of Service",
-            content: "By accessing and using this website, you accept and agree to be bound by the terms and provisions of this agreement. Welcome to Dazzling Designs."
+            content: "By accessing and using this website, you accept and agree to be bound by the terms and provisions of this agreement. Welcome to Dazzling Designz."
         }
     };
 
@@ -48,13 +50,29 @@ export default function Policy() {
         content: "The requested policy page does not exist."
     };
 
+    const isPolicyFound = !!policyContent[type];
+    const jsonLd = isPolicyFound ? [
+        getBreadcrumbSchema([
+            { name: "Home", url: "https://dazzlingdesignzllc.com/" },
+            { name: currentPolicy.title, url: `https://dazzlingdesignzllc.com/policies/${type}` }
+        ])
+    ] : [];
+
     return (
-        <main className="container" style={{ padding: '100px 40px', minHeight: '60vh', maxWidth: '800px' }}>
+        <main className="page-container" style={{ padding: '80px 0' }}>
+            <SEO 
+                title={currentPolicy.title} 
+                description={`Read our ${currentPolicy.title.toLowerCase()} to understand our guidelines and procedures at Dazzling Designz.`}
+                canonicalUrl={`https://dazzlingdesignzllc.com/policies/${type}`}
+                jsonLd={jsonLd}
+            />
+            <div className="container" style={{ maxWidth: '800px', margin: '0 auto' }}>
             <h1 style={{ fontSize: '36px', fontWeight: '900', fontStyle: 'italic', marginBottom: '32px' }}>
                 {currentPolicy.title}
             </h1>
             <div style={{ lineHeight: '1.8', color: 'var(--text-secondary)', fontSize: '16px' }}>
                 {currentPolicy.content}
+            </div>
             </div>
         </main>
     )

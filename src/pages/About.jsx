@@ -1,8 +1,22 @@
 import React from 'react';
+import SEO from '../components/SEO';
+import { getAboutPageSchema, getBreadcrumbSchema } from '../lib/jsonld';
 
 export default function About() {
   return (
     <main className="page-container" style={{ padding: '80px 0' }}>
+      <SEO 
+        title="About Tamara Davis" 
+        description="Learn more about Tamara Davis and the story behind Dazzling Designz custom jewelry and accessories."
+        canonicalUrl="https://dazzlingdesignzllc.com/about"
+        jsonLd={[
+          getAboutPageSchema(),
+          getBreadcrumbSchema([
+            { name: "Home", url: "https://dazzlingdesignzllc.com/" },
+            { name: "About", url: "https://dazzlingdesignzllc.com/about" }
+          ])
+        ]}
+      />
       <div className="container">
         <h1 className="section-title" style={{ textAlign: 'center', marginBottom: '60px', letterSpacing: '4px', fontSize: '1.2rem' }}>
           TAMARA DAVIS
@@ -43,7 +57,7 @@ export default function About() {
               Tamara Davis is the visionary behind Dazzling Designz, a custom jewelry brand where luxury meets faith and purpose. A native Californian with deep North Carolina roots, Tamara brings a unique blend of bold style, cultural influence, and spiritual inspiration into every piece she creates.
             </p>
             <p style={{ marginBottom: '20px' }}>
-              Driven by her love for God and passion for design, Tamara crafts jewelry that goes beyond beauty—each piece is a reflection of faith, strength, and individuality. Her mission is to create dazzling, high-quality designs that not only elevate your style but also serve as meaningful reminders of who you are and what you stand for.
+              Driven by her love for God and passion for design, Tamara crafts jewelry that goes beyond beauty; each piece is a reflection of faith, strength, and individuality. Her mission is to create dazzling, high-quality designs that not only elevate your style but also serve as meaningful reminders of who you are and what you stand for.
             </p>
             <p>
               At Dazzling Designz, every creation is intentional, elegant, and made to shine.

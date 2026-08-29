@@ -1,12 +1,16 @@
 import { Link } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { isProductMisconfigured } from '../lib/validation';
 
 export default function ProductCard({ product }) {
     const scrollContainerRef = useRef(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
     const media = product.media?.length > 0 ? product.media : (product.images?.length > 0 ? product.images.map(url => ({ type: 'image', url })) : (product.image ? [{ type: 'image', url: product.image }] : []));
+    
+    const misconfigured = isProductMisconfigured(product);
+    const isAvailable = !misconfigured && product.availableForSale !== false;
 
     const handleScroll = (e) => {
         const scrollLeft = e.target.scrollLeft;
@@ -30,7 +34,7 @@ export default function ProductCard({ product }) {
     };
 
     return (
-        <div className="product-card animate-fade" style={{ display: 'block' }}>
+        <div className="product-card animate-fade" style={{ display: 'block' }} data-testid="product-card" data-available={isAvailable}>
             <div 
                 className="product-image-wrap" 
                 style={{ position: 'relative' }}
@@ -67,7 +71,7 @@ export default function ProductCard({ product }) {
                     <div className="sale-badge">SALE</div>
                 )}
                 
-                {product.availableForSale === false && (
+                {!isAvailable && (
                     <div className="sold-out-badge">SOLD OUT</div>
                 )}
 
@@ -96,8 +100,8 @@ export default function ProductCard({ product }) {
             </div>
 
             <Link to={`/product/${product.handle}`} className="product-info" style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
-                <h3 className="product-title">{product.title}</h3>
-                <p className="product-price">${product.price}</p>
+                <h3 className="product-title" data-testid="product-title">{product.title}</h3>
+                <p className="product-price" data-testid="product-price">${product.price}</p>
             </Link>
         </div>
     );

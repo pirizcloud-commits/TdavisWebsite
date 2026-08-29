@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
+import SEO from '../components/SEO'
 import { shopifyFetch, getProductsQuery, getCollectionsQuery, getCollectionProductsQuery } from '../lib/ShopifyClient'
+import { getOrganizationSchema, getWebSiteSchema } from '../lib/jsonld'
 
 export default function Home() {
   const [products, setProducts] = useState([])
+  // eslint-disable-next-line no-unused-vars
   const [collections, setCollections] = useState([])
   const [loading, setLoading] = useState(true)
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const searchQuery = searchParams.get('search') || ''
   const filter = searchParams.get('filter') || ''
 
@@ -94,20 +97,32 @@ export default function Home() {
 
     fetchCollections()
     fetchProducts()
-  }, [filter, searchParams.get('handle'), searchParams.get('type')])
+  }, [filter, searchParams])
 
   const filteredProducts = products.filter(product => 
     product.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const isFiltered = !!filter || !!searchQuery;
+
   return (
     <main>
+      <SEO 
+        title="Dazzling Designz | Custom Jewelry & Accessories" 
+        description="Shop custom jewelry, beads, bracelets, and necklaces designed by Tamara Davis."
+        canonicalUrl="https://dazzlingdesignzllc.com/"
+        jsonLd={[getOrganizationSchema(), getWebSiteSchema()]}
+        noindex={isFiltered}
+      />
       {/* Featured Flyer Section */}
       <section className="promo-section" style={{ padding: '40px 0' }}>
         <div className="container">
           <div className="promo-container">
             <div className="promo-content">
-              <h2 className="promo-title">Dazzling Designz</h2>
+              <h1 className="promo-title">
+                Dazzling Designz
+                <span className="visually-hidden"> Custom Jewelry & Premium Accessories</span>
+              </h1>
               <p className="promo-desc">Explore what's new and discover the unique flair of our latest featured designs. Custom pieces curated just for you!</p>
               <button 
                 className="btn-primary promo-btn"

@@ -1,24 +1,23 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { shopifyFetch, cartCreateMutation } from './ShopifyClient';
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
-
-  // Load from local storage
-  useEffect(() => {
+  const [cartItems, setCartItems] = useState(() => {
     const saved = localStorage.getItem('dazzling_cart');
     if (saved) {
       try {
-        setCartItems(JSON.parse(saved));
+        return JSON.parse(saved);
       } catch (e) {
         console.error(e);
       }
     }
-  }, []);
+    return [];
+  });
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   // Save to local storage
   useEffect(() => {

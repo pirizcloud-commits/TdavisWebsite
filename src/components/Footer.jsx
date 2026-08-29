@@ -7,7 +7,7 @@ export default function Footer() {
                 <div className="footer-grid">
                     <div className="footer-col">
                         <Link to="/" className="footer-logo-container" style={{ textDecoration: 'none', display: 'block', overflow: 'hidden', width: '180px', height: '210px', borderRadius: '8px', margin: '0 auto 20px auto' }}>
-                            <img src="/dazzling_designz_logo_full.jpeg" alt="Dazzling Designs Logo" className="footer-logo-img" style={{ objectFit: 'cover', objectPosition: 'top', width: '100%', height: '108%', display: 'block', margin: 0 }} />
+                            <img src="/dazzling_designz_logo_full.jpeg" alt="Dazzling Designz Logo" className="footer-logo-img" style={{ objectFit: 'cover', objectPosition: 'top', width: '100%', height: '108%', display: 'block', margin: 0 }} />
                         </Link>
                         <p className="footer-desc" style={{ textAlign: 'center', margin: '0 auto' }}>
                             Premium custom jewelry. Handcrafted for those who demand the finest quality.
@@ -17,6 +17,7 @@ export default function Footer() {
                     <div className="footer-col">
                         <h4 className="footer-heading">CUSTOMER CARE</h4>
                         <div className="footer-links">
+                            <Link to="/events" className="footer-link">Community Events</Link>
                             <Link to="/jewelry-care" className="footer-link">Jewelry Care & Instructions</Link>
                             <Link to="/policies/sales-and-shipping" className="footer-link">Sales & Shipping Policy</Link>
                             <Link to="/policies/terms" className="footer-link">Terms of Service</Link>

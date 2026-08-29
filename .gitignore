@@ -23,3 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 .env
+test-failure.png
+source-images/
+
+# session cleanup (raw duplicate photos, not for deploy)
+_TO_DELETE/

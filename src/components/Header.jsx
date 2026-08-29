@@ -14,7 +14,7 @@ export default function Header() {
             <nav className="container main-nav">
                 <div className="nav-actions">
                     <Link to="/" className="logo-container" style={{ textDecoration: 'none' }}>
-                        <img src="/dazzling_designz_logo_lettering_cropped.png" alt="Dazzling Designs Logo" className="logo-img" />
+                        <img src="/dazzling_designz_logo_lettering_cropped.png" alt="Dazzling Designz Logo" className="logo-img" />
                     </Link>
                 </div>
 
@@ -23,13 +23,14 @@ export default function Header() {
                         <div className="nav-item-dropdown">
                             <Link to="/" className="nav-link">Shop All</Link>
                             <div className="dropdown-menu">
-                                <Link to="/?filter=category&type=Necklaces" className="dropdown-link">Necklaces</Link>
-                                <Link to="/?filter=category&type=Bracelets" className="dropdown-link">Bracelets</Link>
+                                <Link to="/collections/necklaces" className="dropdown-link">Necklaces</Link>
+                                <Link to="/collections/bracelets-1" className="dropdown-link">Bracelets</Link>
                                 <Link to="/?filter=category&type=Anklets" className="dropdown-link">Anklets</Link>
                                 <Link to="/?filter=category&type=Personal Services" className="dropdown-link">Personal Services</Link>
                             </div>
                         </div>
                         <Link to="/?filter=new-arrivals" className="nav-link">New Arrivals</Link>
+                        <Link to="/events" className="nav-link">Events</Link>
                         <Link to="/about" className="nav-link">About</Link>
                     </div>
 
@@ -43,9 +44,9 @@ export default function Header() {
                         />
                     </div>
 
-                    <button className="icon-btn" onClick={toggleCart}>
+                    <button className="icon-btn" onClick={toggleCart} aria-label="Open cart">
                         <ShoppingBag size={24} />
-                        {totalQuantity > 0 && <span className="badge">{totalQuantity}</span>}
+                        {totalQuantity > 0 && <span className="badge" data-testid="cart-badge">{totalQuantity}</span>}
                     </button>
 
                     <button
@@ -63,12 +64,13 @@ export default function Header() {
                     <nav className="mobile-nav-links">
                         <Link to="/" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Shop All</Link>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px', marginTop: '-10px', marginBottom: '10px' }}>
-                            <Link to="/?filter=category&type=Necklaces" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Necklaces</Link>
-                            <Link to="/?filter=category&type=Bracelets" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Bracelets</Link>
+                            <Link to="/collections/necklaces" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Necklaces</Link>
+                            <Link to="/collections/bracelets-1" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Bracelets</Link>
                             <Link to="/?filter=category&type=Anklets" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Anklets</Link>
                             <Link to="/?filter=category&type=Personal Services" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Personal Services</Link>
                         </div>
                         <Link to="/?filter=new-arrivals" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>New Arrivals</Link>
+                        <Link to="/events" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Events</Link>
                         <Link to="/about" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
                     </nav>
                 </div>

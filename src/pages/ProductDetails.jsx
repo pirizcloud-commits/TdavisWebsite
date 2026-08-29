@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { shopifyFetch, getProductByHandleQuery } from '../lib/ShopifyClient'
 import { useCart } from '../lib/CartContext'
+import SEO from '../components/SEO'
+import { getProductSchema, getBreadcrumbSchema } from '../lib/jsonld'
+import { isProductMisconfigured } from '../lib/validation'
 
 export default function ProductDetails() {
   const { handle } = useParams()
@@ -48,7 +51,11 @@ export default function ProductDetails() {
     )
   }
 
-  const price = parseFloat(product.priceRange?.minVariantPrice?.amount || '0').toFixed(2);
+  const variant = product.variants?.edges[0]?.node;
+  const priceAmount = variant?.price?.amount;
+  const price = priceAmount != null ? parseFloat(priceAmount).toFixed(2) : null;
+  const misconfigured = isProductMisconfigured(product);
+  const isPurchasable = !misconfigured && variant?.availableForSale && price !== null;
 
   const productMedia = product.media?.edges.map(e => {
     if (e.node.mediaContentType === 'VIDEO') {
@@ -65,7 +72,9 @@ export default function ProductDetails() {
   
   const handleAddToCart = () => {
     const variantIdStr = product.variants?.edges[0]?.node?.id
-    if (!variantIdStr) return alert("Product is unavailable")
+    if (!variantIdStr || !isPurchasable) {
+      return alert("Product is unavailable");
+    }
     
     addToCart({
       id: product.id,
@@ -75,8 +84,29 @@ export default function ProductDetails() {
     }, variantIdStr)
   }
 
+  const seoDescription = product.description || `Shop ${product.title} at Dazzling Designz. Premium custom jewelry and beads.`;
+  const seoImage = productMedia.find(m => m.type === 'image')?.url || "https://dazzlingdesignzllc.com/dazzling_designz_logo_full.jpeg";
+
+  const productUrl = `https://dazzlingdesignzllc.com/product/${product.handle}`;
+  
+  const jsonLd = [
+    getBreadcrumbSchema([
+      { name: "Home", url: "https://dazzlingdesignzllc.com/" },
+      { name: product.title, url: productUrl }
+    ]),
+    getProductSchema(misconfigured ? { ...product, variants: { edges: [] } } : product, productUrl)
+  ];
+
   return (
-    <main className="container" style={{ padding: '80px 40px' }}>
+    <main>
+      <SEO 
+        title={product.title} 
+        description={seoDescription}
+        canonicalUrl={productUrl}
+        ogImage={seoImage}
+        jsonLd={jsonLd}
+      />
+      <div className="container" style={{ padding: '80px 40px' }}>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'start' }}>
         {/* Product Image */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -177,7 +207,7 @@ export default function ProductDetails() {
           </h1>
           
           <p style={{ fontSize: '32px', fontWeight: '900', color: 'var(--text-secondary)' }}>
-            ${price}
+            {price !== null ? `$${price}` : 'Unavailable'}
           </p>
           
           <div 
@@ -185,17 +215,25 @@ export default function ProductDetails() {
             dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} 
           />
 
+          {misconfigured && (
+            <div style={{ marginTop: '20px', padding: '16px', background: 'rgba(255,0,0,0.1)', border: '1px solid rgba(255,0,0,0.3)', borderRadius: 'var(--border-radius-md)', color: '#ff6b6b', fontWeight: '500' }}>
+              Gift cards are temporarily unavailable. Please check back soon.
+            </div>
+          )}
+
           <div style={{ marginTop: '32px', display: 'flex', gap: '16px' }}>
             <button 
               className="btn-primary" 
-              style={{ width: '100%', opacity: product.variants?.edges[0]?.node?.availableForSale ? 1 : 0.5, cursor: product.variants?.edges[0]?.node?.availableForSale ? 'pointer' : 'not-allowed' }}
+              style={{ width: '100%', opacity: isPurchasable ? 1 : 0.5, cursor: isPurchasable ? 'pointer' : 'not-allowed' }}
               onClick={handleAddToCart}
-              disabled={!product.variants?.edges[0]?.node?.availableForSale}
+              disabled={!isPurchasable}
+              data-testid="add-to-cart-btn"
             >
-              {product.variants?.edges[0]?.node?.availableForSale === false ? 'Sold Out' : 'Add to Cart'}
+              {!isPurchasable ? (price === null ? 'Unavailable' : 'Sold Out') : 'Add to Cart'}
             </button>
           </div>
         </div>
+      </div>
       </div>
     </main>
   )

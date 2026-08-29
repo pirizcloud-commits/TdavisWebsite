@@ -1,6 +1,16 @@
-import fs from 'fs';
-const domain = 'dazzling-designz-5373.myshopify.com';
-const token = '4e0def04b3e9672c1f293d26977f048e';
+/* global process */
+// Manual Storefront API CORS probe.
+// Run: node --env-file=.env.production test-cors.mjs
+// Credentials are read from the environment — no secrets are hardcoded here.
+import { SHOPIFY_API_VERSION } from './src/lib/shopifyApiVersion.js';
+
+const domain = process.env.VITE_SHOPIFY_DOMAIN || '';
+const token = process.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN || '';
+
+if (!domain || !token) {
+  console.error('Missing VITE_SHOPIFY_DOMAIN / VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN. Run: node --env-file=.env.production test-cors.mjs');
+  process.exit(1);
+}
 
 const query = `
   query getProducts($first: Int!) {
@@ -15,7 +25,7 @@ const query = `
 `;
 
 async function testFetch(origin) {
-  const endpoint = `https://${domain}/api/2024-01/graphql.json`;
+  const endpoint = `https://${domain}/api/${SHOPIFY_API_VERSION}/graphql.json`;
   try {
     const res = await fetch(endpoint, {
       method: 'POST',
@@ -37,7 +47,6 @@ async function testFetch(origin) {
 
 async function run() {
   await testFetch('http://localhost:5173');
-  await testFetch('https://tdaviswebsite.pages.dev');
-  await testFetch('https://elegant-designs.pages.dev');
+  await testFetch('https://dazzlingdesignzllc.com');
 }
 run();

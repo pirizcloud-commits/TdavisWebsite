@@ -1,8 +1,21 @@
 import React from 'react';
+import SEO from '../components/SEO';
+import { getBreadcrumbSchema } from '../lib/jsonld';
 
 export default function JewelryCare() {
   return (
     <main className="page-container" style={{ padding: '80px 0' }}>
+      <SEO 
+        title="Jewelry Care Instructions" 
+        description="Learn how to properly care for and clean your custom jewelry, pearl bracelets, and beads to maintain their beauty and longevity."
+        canonicalUrl="https://dazzlingdesignzllc.com/jewelry-care"
+        jsonLd={[
+          getBreadcrumbSchema([
+            { name: "Home", url: "https://dazzlingdesignzllc.com/" },
+            { name: "Jewelry Care", url: "https://dazzlingdesignzllc.com/jewelry-care" }
+          ])
+        ]}
+      />
       <div className="container" style={{ maxWidth: '800px', margin: '0 auto' }}>
         <h1 className="section-title" style={{ textAlign: 'center', marginBottom: '40px', letterSpacing: '4px', fontSize: '1.2rem' }}>
           JEWELRY CARE & INSTRUCTIONS
@@ -23,7 +36,7 @@ export default function JewelryCare() {
               <strong>Keep your piece away</strong> from water, perfumes, lotions, oils, and cosmetics
             </li>
             <li style={{ marginBottom: '15px' }}>
-              <strong>Gently roll</strong> the bracelet on and off your wrist—avoid pulling or overstretching
+              <strong>Gently roll</strong> the bracelet on and off your wrist; avoid pulling or overstretching
             </li>
             <li style={{ marginBottom: '15px' }}>
               <strong>Store</strong> in a cool, dry place, preferably in a soft pouch or jewelry box
