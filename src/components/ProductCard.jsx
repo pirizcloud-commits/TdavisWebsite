@@ -101,7 +101,18 @@ export default function ProductCard({ product }) {
 
             <Link to={`/product/${product.handle}`} className="product-info" style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
                 <h3 className="product-title" data-testid="product-title">{product.title}</h3>
-                <p className="product-price" data-testid="product-price">${product.price}</p>
+                <p className="product-price" data-testid="product-price">
+                    {product.onSale && product.compareAtPrice ? (
+                        <>
+                            <span style={{ textDecoration: 'line-through', color: 'var(--text-secondary)', marginRight: '8px', fontSize: '0.9em' }}>
+                                ${product.compareAtPrice}
+                            </span>
+                            <span style={{ color: '#16a34a', fontWeight: 'bold' }}>${product.price}</span>
+                        </>
+                    ) : (
+                        <>${product.price}</>
+                    )}
+                </p>
             </Link>
         </div>
     );

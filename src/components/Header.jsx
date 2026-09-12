@@ -25,6 +25,7 @@ export default function Header() {
                             <div className="dropdown-menu">
                                 <Link to="/collections/necklaces" className="dropdown-link">Necklaces</Link>
                                 <Link to="/collections/bracelets-1" className="dropdown-link">Bracelets</Link>
+                                <Link to="/?filter=category&type=Earrings" className="dropdown-link">Earrings</Link>
                                 <Link to="/?filter=category&type=Anklets" className="dropdown-link">Anklets</Link>
                                 <Link to="/?filter=category&type=Personal Services" className="dropdown-link">Personal Services</Link>
                             </div>
@@ -66,6 +67,7 @@ export default function Header() {
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px', marginTop: '-10px', marginBottom: '10px' }}>
                             <Link to="/collections/necklaces" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Necklaces</Link>
                             <Link to="/collections/bracelets-1" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Bracelets</Link>
+                            <Link to="/?filter=category&type=Earrings" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Earrings</Link>
                             <Link to="/?filter=category&type=Anklets" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Anklets</Link>
                             <Link to="/?filter=category&type=Personal Services" className="mobile-nav-link" style={{ fontSize: '13px', color: 'var(--text-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>Personal Services</Link>
                         </div>

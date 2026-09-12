@@ -54,6 +54,9 @@ export default function ProductDetails() {
   const variant = product.variants?.edges[0]?.node;
   const priceAmount = variant?.price?.amount;
   const price = priceAmount != null ? parseFloat(priceAmount).toFixed(2) : null;
+  const compareAtPriceAmount = variant?.compareAtPrice?.amount;
+  const compareAtPrice = compareAtPriceAmount != null ? parseFloat(compareAtPriceAmount).toFixed(2) : null;
+  const onSale = compareAtPrice && price && parseFloat(compareAtPrice) > parseFloat(price);
   const misconfigured = isProductMisconfigured(product);
   const isPurchasable = !misconfigured && variant?.availableForSale && price !== null;
 
@@ -207,7 +210,18 @@ export default function ProductDetails() {
           </h1>
           
           <p style={{ fontSize: '32px', fontWeight: '900', color: 'var(--text-secondary)' }}>
-            {price !== null ? `$${price}` : 'Unavailable'}
+            {price !== null ? (
+                onSale && compareAtPrice ? (
+                    <>
+                        <span style={{ textDecoration: 'line-through', opacity: 0.7, marginRight: '16px', fontSize: '24px' }}>
+                            ${compareAtPrice}
+                        </span>
+                        <span style={{ color: '#16a34a', fontWeight: 'bold' }}>${price}</span>
+                    </>
+                ) : (
+                    `$${price}`
+                )
+            ) : 'Unavailable'}
           </p>
           
           <div 

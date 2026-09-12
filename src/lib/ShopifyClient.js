@@ -77,6 +77,7 @@ export const getProductsQuery = `
             edges {
               node {
                 price { amount }
+                compareAtPrice { amount }
                 selectedOptions { name value }
               }
             }
@@ -161,6 +162,7 @@ export const getCollectionProductsQuery = `
               edges {
                 node {
                   price { amount }
+                  compareAtPrice { amount }
                   selectedOptions { name value }
                 }
               }
@@ -222,6 +224,10 @@ export const getProductByHandleQuery = `
             title
             availableForSale
             price {
+              amount
+              currencyCode
+            }
+            compareAtPrice {
               amount
               currencyCode
             }

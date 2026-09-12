@@ -21,7 +21,7 @@ export default function Footer() {
                             <Link to="/jewelry-care" className="footer-link">Jewelry Care & Instructions</Link>
                             <Link to="/policies/sales-and-shipping" className="footer-link">Sales & Shipping Policy</Link>
                             <Link to="/policies/terms" className="footer-link">Terms of Service</Link>
-                            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginTop: '8px' }}>Phone: 910-236-9362</p>
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginTop: '8px' }}>Phone: +1 (910) 337-5350</p>
                         </div>
                     </div>
 

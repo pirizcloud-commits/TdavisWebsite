@@ -40,16 +40,22 @@ export default function CollectionDetails() {
             
             parsedMedia.sort((a, b) => (a.type === 'video' ? -1 : (b.type === 'video' ? 1 : 0)));
 
+            const price = parseFloat(node.priceRange?.minVariantPrice?.amount || '0').toFixed(2);
+            const firstVariant = node.variants?.edges?.[0]?.node;
+            const compareAtPrice = firstVariant?.compareAtPrice?.amount ? parseFloat(firstVariant.compareAtPrice.amount).toFixed(2) : null;
+            const onSale = compareAtPrice && parseFloat(compareAtPrice) > parseFloat(price);
+
             // Extract variants for guard
             return {
               id: node.id,
               handle: node.handle,
               title: node.title,
-              price: parseFloat(node.priceRange?.minVariantPrice?.amount || '0').toFixed(2),
+              price: price,
+              compareAtPrice: compareAtPrice,
               images: node.images?.edges.map(e => e.node.url) || [],
               media: parsedMedia,
               availableForSale: node.availableForSale,
-              onSale: false,
+              onSale: onSale,
               variants: node.variants
             };
           });

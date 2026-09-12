@@ -26,7 +26,8 @@ export default function Home() {
         } else if (filter === 'customs') {
           variables = { first: 250, query: 'title:*custom*' }
         } else if (filter === 'category' && searchParams.get('type')) {
-          variables = { first: 250, query: searchParams.get('type') }
+          const typeVal = searchParams.get('type');
+          variables = { first: 250, query: typeVal }
         } else if (filter === 'collection' && searchParams.get('handle')) {
           query = getCollectionProductsQuery;
           variables = { first: 250, handle: searchParams.get('handle') };
@@ -43,6 +44,32 @@ export default function Home() {
             edges = body.data?.collection?.products?.edges || []
           } else {
             edges = body.data?.products?.edges || []
+            
+            // Temporary manual filter for items without proper Shopify tags
+            if (filter === 'category' && searchParams.get('type')) {
+              const typeLower = searchParams.get('type').toLowerCase();
+              if (typeLower === 'earrings') {
+                edges = edges.filter(({ node }) => {
+                  const title = node.title.toLowerCase();
+                  // Filter out known necklace sets that incorrectly match the 'Earrings' query
+                  if (
+                    title.includes('golden favor') || 
+                    title.includes('autumn amber') || 
+                    title.includes('teal elegance') || 
+                    title.includes('pretty peacock') ||
+                    title.includes('necklace') ||
+                    title.includes('bracelet')
+                  ) {
+                    return false;
+                  }
+                  return true;
+                });
+              } else if (typeLower === 'anklets') {
+                edges = edges.filter(({ node }) => {
+                  return node.title.toLowerCase().includes('anklet');
+                });
+              }
+            }
           }
 
           const formattedProducts = edges.map(({ node }) => {
@@ -60,15 +87,21 @@ export default function Home() {
             // Prioritize videos to be the default image if available
             parsedMedia.sort((a, b) => (a.type === 'video' ? -1 : (b.type === 'video' ? 1 : 0)));
 
+            const price = parseFloat(node.priceRange?.minVariantPrice?.amount || '0').toFixed(2);
+            const firstVariant = node.variants?.edges?.[0]?.node;
+            const compareAtPrice = firstVariant?.compareAtPrice?.amount ? parseFloat(firstVariant.compareAtPrice.amount).toFixed(2) : null;
+            const onSale = compareAtPrice && parseFloat(compareAtPrice) > parseFloat(price);
+
             return {
               id: node.id,
               handle: node.handle,
               title: node.title,
-              price: parseFloat(node.priceRange?.minVariantPrice?.amount || '0').toFixed(2),
+              price: price,
+              compareAtPrice: compareAtPrice,
               images: node.images?.edges.map(e => e.node.url) || [],
               media: parsedMedia,
               availableForSale: node.availableForSale,
-              onSale: false
+              onSale: onSale
             };
           });
           setProducts(formattedProducts)
@@ -115,32 +148,34 @@ export default function Home() {
         noindex={isFiltered}
       />
       {/* Featured Flyer Section */}
-      <section className="promo-section" style={{ padding: '40px 0' }}>
-        <div className="container">
-          <div className="promo-container">
-            <div className="promo-content">
-              <h1 className="promo-title">
-                Dazzling Designz
-                <span className="visually-hidden"> Custom Jewelry & Premium Accessories</span>
-              </h1>
-              <p className="promo-desc">Explore what's new and discover the unique flair of our latest featured designs. Custom pieces curated just for you!</p>
-              <button 
-                className="btn-primary promo-btn"
-                onClick={() => document.getElementById('products-grid').scrollIntoView({ behavior: 'smooth' })}
-              >
-                Shop Now
-              </button>
-            </div>
-            <div className="promo-image-wrapper">
-              <img 
-                src="/images/dazzling-design-flyer.png" 
-                alt="Dazzling Designz Featured Event" 
-                className="promo-img"
-              />
+      {!isFiltered && (
+        <section className="promo-section" style={{ padding: '40px 0' }}>
+          <div className="container">
+            <div className="promo-container">
+              <div className="promo-content">
+                <h1 className="promo-title">
+                  Dazzling Designz
+                  <span className="visually-hidden"> Custom Jewelry & Premium Accessories</span>
+                </h1>
+                <p className="promo-desc">Explore what's new and discover the unique flair of our latest featured designs. Custom pieces curated just for you!</p>
+                <button 
+                  className="btn-primary promo-btn"
+                  onClick={() => document.getElementById('products-grid').scrollIntoView({ behavior: 'smooth' })}
+                >
+                  Shop Now
+                </button>
+              </div>
+              <div className="promo-image-wrapper">
+                <img 
+                  src="/images/dazzling-design-flyer.png" 
+                  alt="Dazzling Designz Featured Event" 
+                  className="promo-img"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* TEMPORARILY DISABLED HERO SECTION
       <section className="hero">
